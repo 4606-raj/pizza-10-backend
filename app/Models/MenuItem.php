@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+
+class MenuItem extends Model
+{
+    use HasFactory;
+
+    protected $guarded = [];
+    protected $hidden = ['created_at', 'updated_at'];
+
+    public function tags() {
+        return $this->belongsToMany(Tag::class);
+    }
+
+    public static function scopefilter(Builder $builder, string $tag) {
+        return $builder->whereRelation('tags', 'name', $tag);
+    }
+
+    public static function getWithBestSeller() {
+        return Self::all();
+    }
+
+    public static function getNewlyAdded() {
+        return Self::all();
+    }
+    
+}
