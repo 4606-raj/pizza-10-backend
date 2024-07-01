@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\OfferCategory;
+use App\Models\Offer;
 
 class OffersSeeder extends Seeder
 {
@@ -22,9 +23,15 @@ class OffersSeeder extends Seeder
         $offerCategories = OfferCategory::all();
         
         foreach ($offerCategories as $key => $offerCategory) {
-            foreach ($data as $key => $value) {
+            foreach ($data as $key1 => $value) {
+                if($key == 0 && $key1 > 0) {
+                    continue;
+                }
                 $offerCategory->offers()->firstOrCreate($value);
             }
         }
+
+        Offer::first()->update(['image' => 'flat 50  off.png']);
+        
     }
 }

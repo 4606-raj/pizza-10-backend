@@ -12,4 +12,11 @@ class Offer extends Model
     protected $guarded = [];
     
     protected $hidden = ['created_at', 'updated_at'];
+
+    public function getImageAttribute($val) : string {
+        if(!is_null($val)) {
+            return asset('storage/images/offers/' . $val);
+        }
+        return asset('storage/images/default.jpg');
+    }
 }

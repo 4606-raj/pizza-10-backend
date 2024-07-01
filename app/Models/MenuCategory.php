@@ -15,4 +15,11 @@ class MenuCategory extends Model
     public function menuItems() {
         return $this->hasMany(MenuItem::class, 'menu_categories_id');
     }
+
+    public function getImageAttribute($val) : string {
+        if(!is_null($val)) {
+            return asset('storage/images/menu-categories/' . $val);
+        }
+        return asset('storage/images/default.jpg');
+    }
 }
