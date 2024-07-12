@@ -15,14 +15,13 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             MenuCategoriesSeeder::class,
-            MenuSubcategoriesSeeder::class,
             OrderTypesSeeder::class,
             TagsSeeder::class,
             OfferCategoriesSeeder::class,
             OffersSeeder::class,
-            MenuItemsSeeder::class,
             BaseCategoriesSeeder::class,
             BasesSeeder::class,
+            MenuItemsSeeder::class,
             DipsSeeder::class,
             ToppingCategoriesSeeder::class,
             ToppingsSeeder::class,

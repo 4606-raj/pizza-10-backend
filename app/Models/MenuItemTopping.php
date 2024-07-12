@@ -5,9 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MenuSubcategory extends Model
+class MenuItemTopping extends Model
 {
     use HasFactory;
     
-    protected $guarded = [];
 }

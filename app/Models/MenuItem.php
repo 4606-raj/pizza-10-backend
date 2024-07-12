@@ -29,4 +29,7 @@ class MenuItem extends Model
         return Self::all();
     }
     
+    public function toppings() {
+        return $this->belongsToMany(Topping::class, 'menu_item_toppings');
+    }
 }
