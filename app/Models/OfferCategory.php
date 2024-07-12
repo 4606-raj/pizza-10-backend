@@ -13,6 +13,6 @@ class OfferCategory extends Model
     protected $hidden = ['created_at', 'updated_at'];
 
     public function offers() {
-        return $this->hasMany(Offer::class, 'offer_categories_id');
+        return $this->hasMany(Offer::class, 'offer_category_id');
     }
 }

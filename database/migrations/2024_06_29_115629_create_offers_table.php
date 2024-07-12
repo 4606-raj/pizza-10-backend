@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('code');
             $table->string('title');
             $table->string('description')->nullable();
-            $table->foreignId('offer_categories_id')->constrained();
+            $table->foreignId('offer_category_id')->constrained();
             $table->string('image')->nullable();
             $table->timestamps();
         });

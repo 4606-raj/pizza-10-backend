@@ -15,7 +15,7 @@ class TagsSeeder extends Seeder
     {
         $data = ['new', 'best-seller', 'trending'];
 
-        foreach ($data as $key => $value) {
+        foreach ($data as $value) {
             Tag::firstOrCreate(['name' => $value]);
         }
     }

@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('toppings', function (Blueprint $table) {
+        Schema::create('topping_category_prices', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('image')->nullable();
-            $table->boolean('is_veg')->default(true);
             $table->foreignId('topping_category_id')->constrained();
+            $table->foreignId('base_id')->constrained();
+            $table->double('price')->constrained();
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('toppings');
+        Schema::dropIfExists('topping_category_prices');
     }
 };

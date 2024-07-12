@@ -16,7 +16,7 @@ class MenuSubcategoriesSeeder extends Seeder
         $data = ['menu subcategory 1'];
         
         foreach ($data as $key => $value) {
-            MenuSubCategory::firstOrCreate(['name' => $value, 'menu_categories_id' => 1]);
+            MenuSubCategory::firstOrCreate(['name' => $value, 'menu_category_id' => 1]);
         }
     }
 }

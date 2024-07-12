@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('price');
-            $table->foreignId('base_categories_id')->constrained();
+            $table->foreignId('base_category_id')->constrained();
             $table->timestamps();
         });
     }

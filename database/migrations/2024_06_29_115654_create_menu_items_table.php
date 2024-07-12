@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->string('price');
             $table->string('discount')->nullable();
-            $table->foreignId('menu_categories_id')->constrained();
-            $table->foreignId('menu_subcategories_id')->constrained();
+            $table->foreignId('menu_category_id')->constrained();
+            $table->foreignId('menu_subcategory_id')->constrained();
             $table->boolean('is_veg')->default(true);
             $table->integer('max_allowed_toppings')->default(true);
             $table->timestamps();

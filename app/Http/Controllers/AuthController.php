@@ -56,10 +56,13 @@ class AuthController extends Controller
                     ->where('otp_expires_at', '>', now())
                     ->first();
 
-        if ($user) {
+        $token = $user->createToken('MyApp')->accessToken;
+        $user['token'] = $token;
+
+        // if ($user) {
             $user->update(['otp' => null, 'otp_expires_at' => null]);
             return $this->success($user, 'Welcome');
-        }
+        // }
 
         return $this->error('Invalid OTP or OTP expired.', 401);
     }

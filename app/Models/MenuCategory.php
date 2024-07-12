@@ -13,7 +13,7 @@ class MenuCategory extends Model
     protected $hidden = ['created_at', 'updated_at'];
 
     public function menuItems() {
-        return $this->hasMany(MenuItem::class, 'menu_categories_id');
+        return $this->hasMany(MenuItem::class, 'menu_category_id');
     }
 
     public function getImageAttribute($val) : string {
