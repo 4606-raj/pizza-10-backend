@@ -18,7 +18,8 @@ class MenuItem extends Model
     }
 
     public static function scopefilter(Builder $builder, string $tag) {
-        return $builder->whereRelation('tags', 'name', $tag);
+        return $builder->inRandomOrder()->limit(10);
+        // return $builder->whereRelation('tags', 'name', $tag);
     }
 
     public static function getWithBestSeller() {
