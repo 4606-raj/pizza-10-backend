@@ -12,6 +12,7 @@ class MenuItem extends Model
 
     protected $guarded = [];
     protected $hidden = ['created_at', 'updated_at'];
+    protected $with = ['prices'];
 
     public function tags() {
         return $this->belongsToMany(Tag::class);
@@ -32,5 +33,9 @@ class MenuItem extends Model
     
     public function toppings() {
         return $this->belongsToMany(Topping::class, 'menu_item_toppings');
+    }
+
+    public function prices() {
+        return $this->hasMany(MenuItemPrice::class);
     }
 }

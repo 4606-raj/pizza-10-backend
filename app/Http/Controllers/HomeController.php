@@ -25,5 +25,10 @@ class HomeController extends Controller
         return $this->success($data);
 
     }
+
+    public function show($id) : JsonResponse {
+        $menuItem = MenuItem::find($id);
+        return $this->success($menuItem);
+    }
     
 }

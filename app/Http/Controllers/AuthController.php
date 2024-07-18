@@ -53,14 +53,18 @@ class AuthController extends Controller
 
         $user = User::where('phone_number', $request->phone_number)
                     ->where('otp', $request->otp)
-                    ->where('otp_expires_at', '>', now())
+                    // ->where('otp_expires_at', '>', now())
                     ->first();
 
-        $token = $user->createToken('MyApp')->accessToken;
-        $user['token'] = $token;
+        if(!$user) {
+            return $this->error('Invalid Phone Number.', 404);
+        }
 
+        $token = $user->createToken('MyApp')->accessToken;
+        
         // if ($user) {
             $user->update(['otp' => null, 'otp_expires_at' => null]);
+            $user['token'] = $token;
             return $this->success($user, 'Welcome');
         // }
 
