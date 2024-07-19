@@ -20,23 +20,18 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'phone_number' => 'required|digits:10|unique:users,phone_number',
+            'phone_number' => 'required|digits:10',
         ]);
 
         // $otp = rand(100000, 999999);
         $otp = 111000;
         $expires_at = now()->addMinutes(10);
 
-        $user = User::wherePhoneNumber($request->phone_number)->first();
-
-        if(is_null($user)) {
-            
-            $user = User::create([
-                'phone_number' => $request->phone_number,
-                'otp' => $otp,
-                'otp_expires_at' => $expires_at,
-            ]);
-        }
+        $user = User::updateOrCreate(['phone_number' => $request->phone_number], [
+            'phone_number' => $request->phone_number,
+            'otp' => $otp,
+            'otp_expires_at' => $expires_at,
+        ]);
         
 
         $this->sendOtp($request->phone_number, $otp);

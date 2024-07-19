@@ -8,6 +8,8 @@ use App\Traits\ApiResponsesTrait;
 use App\Models\MenuCategory;
 use App\Models\MenuItem;
 use App\Models\OfferCategory;
+use App\Models\Address;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -30,5 +32,39 @@ class HomeController extends Controller
         $menuItem = MenuItem::find($id);
         return $this->success($menuItem);
     }
+
+    public function getAddresses() : JsonResponse {
+        $data['addresses'] = Auth::user()->addresses;
+        $data['defaultAddress'] = Auth::user()->defaultAddress[0] ?? null;
+
+        return $this->error($data);
+    }
     
+    function storeAddress(Request $request) : JsonResponse {
+        $data = $request->validate([
+                    'house_no' => 'required',
+                    'street_landmark' => 'required',
+                    'sector_village' => 'required',
+                    'city' => 'required',
+                    'state' => 'required',
+                    'details' => 'required',
+                ]);
+
+        $data['user_id'] = Auth::user()->id;
+        
+        $address = Address::create($data);
+
+        return $this->success($address, 'Address Added Successfully');
+    }
+
+    public function destroyAddress($id) : JsonResponse {
+        try {
+            Address::findOrFail($id)->delete();
+
+            return $this->success([], 'Address Deleted Successfully');
+        }
+        catch(\Exception $e) {
+            return $this->error($e->getMessage());
+        }
+    }
 }
