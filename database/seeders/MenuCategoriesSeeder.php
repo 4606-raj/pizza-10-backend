@@ -21,10 +21,10 @@ class MenuCategoriesSeeder extends Seeder
             "P'Z 10 Special",
         ];
 
-        foreach ($menuCategories as $menuCategoryName) {
+        foreach ($menuCategories as $key => $menuCategoryName) {
             MenuCategory::firstOrCreate([
                 'name' => $menuCategoryName,
-                'image' => null,
+                'image' => "category-$key.jpeg",
             ]);
         }
     }
