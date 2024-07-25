@@ -10,4 +10,10 @@ class Topping extends Model
     use HasFactory;
 
     protected $guarded = [];
+    protected $hidden = ['created_at', 'updated_at'];
+
+    public function categories() {
+        return $this->belongsTo(ToppingCategory::class);
+    }
+    
 }

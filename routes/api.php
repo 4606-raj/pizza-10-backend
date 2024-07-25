@@ -17,6 +17,7 @@ Route::post('verify-otp', [AuthController::class, 'verifyOtp']);
 
 Route::get('index', [HomeController::class, 'index']);
 Route::get('show/{id}', [HomeController::class, 'show']);
+Route::get('toppings', [HomeController::class, 'toppingsList']);
 
 Route::group(['middleware' => 'auth:api'], function() {
     Route::get('cart', [CartController::class, 'index']);

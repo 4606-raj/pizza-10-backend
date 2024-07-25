@@ -9,6 +9,7 @@ use App\Models\MenuCategory;
 use App\Models\MenuItem;
 use App\Models\OfferCategory;
 use App\Models\Address;
+use App\Models\ToppingCategory;
 use Auth;
 
 class HomeController extends Controller
@@ -66,5 +67,10 @@ class HomeController extends Controller
         catch(\Exception $e) {
             return $this->error($e->getMessage());
         }
+    }
+
+    public function toppingsList() : JsonResponse {
+        $data = ToppingCategory::with('toppings', 'prices')->get();
+        return $this->success($data);
     }
 }
