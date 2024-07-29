@@ -43,22 +43,25 @@ class CartController extends Controller
             $cartItem = Cart::create($data);
         }
 
-        foreach ($request->toppings as $key => $topping) {
-            $topping = CartAddon::create([
-                'cart_id' => $cartItem->id,
-                'addon_id' => $topping['id'],
-                'addon_type' => 'topping',
-                'amount' => $topping['amount']
-            ]);
+        if(!empty($request->toppings)) {
 
-            $amount = $cartItem->amount + $topping->amount;
-            $data['toppings'][] = $topping;
+            foreach ($request->toppings as $key => $topping) {
+                $topping = CartAddon::create([
+                    'cart_id' => $cartItem->id,
+                    'addon_id' => $topping['id'],
+                    'addon_type' => 'topping',
+                    'amount' => $topping['amount']
+                ]);
+                
+                $amount = $cartItem->amount + $topping->amount;
+                $data['toppings'][] = $topping;
+            }
+            $cartItem->amount = $amount;
+            $cartItem->save();
         }
 
+        
         $data['cartItem'] = $cartItem;
-
-        $cartItem->amount = $amount;
-        $cartItem->save();
 
         return $this->success($data, "Added To Cart");
     }
