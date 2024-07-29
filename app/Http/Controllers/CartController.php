@@ -29,7 +29,7 @@ class CartController extends Controller
 
         $amount = MenuItemPrice::whereMenuItemId($request->menu_item_id)->whereBaseId($request->base_id)->first();
         
-        $cartItem = Cart::whereUserId($userId)->whereMenuItemId($request->menu_item_id)->whereBaseId($request->base_id)->first();
+        $cartItem = Cart::whereUserId($userId)->whereMenuItemId($request->menu_item_id)->whereBaseId($request->base_id)->whereStatus(1)->first();
 
         if($cartItem) {
             $cartItem->increment('quantity');

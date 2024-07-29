@@ -26,12 +26,23 @@ class HomeController extends Controller
         $data['manu_items']['newly_added'] = MenuItem::filter('new')->get();
 
         return $this->success($data);
+    }
+    
+    public function menu() : JsonResponse {
+        $data = MenuItem::query();
 
+        if(request()->has('menu_category_id') && !empty(request()->menu_category_id)) {
+            $data = $data->whereMenuCategoryId(request()->menu_category_id);
+        }
+
+        $data = $data->get();
+        return $this->success($data);
     }
 
     public function show($id) : JsonResponse {
-        $menuItem = MenuItem::find($id);
-        return $this->success($menuItem);
+        $data['menuItem'] = MenuItem::find($id);
+        $data['toppings'] = ToppingCategory::with('toppings', 'prices')->get();
+        return $this->success($data);
     }
 
     public function getAddresses() : JsonResponse {
