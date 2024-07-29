@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Traits\ApiResponsesTrait;
-use App\Models\{MenuItemPrice, Cart};
+use App\Models\{MenuItemPrice, Cart, CartAddon};
 use Auth;
 
 class CartController extends Controller
@@ -40,8 +40,25 @@ class CartController extends Controller
             $data['user_id'] = $userId;
             $data['amount'] = $amount->price;
             
-            Cart::create($data);
+            $cartItem = Cart::create($data);
         }
+
+        foreach ($request->toppings as $key => $topping) {
+            $topping = CartAddon::create([
+                'cart_id' => $cartItem->id,
+                'addon_id' => $topping['id'],
+                'addon_type' => 'topping',
+                'amount' => $topping['amount']
+            ]);
+
+            $amount = $cartItem->amount + $topping->amount;
+            $data['toppings'][] = $topping;
+        }
+
+        $data['cartItem'] = $cartItem;
+
+        $cartItem->amount = $amount;
+        $cartItem->save();
 
         return $this->success($data, "Added To Cart");
     }
