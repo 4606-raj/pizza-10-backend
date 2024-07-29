@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Traits\ApiResponsesTrait;
-use App\Models\{MenuItemPrice, Cart, CartAddon};
+use App\Models\{MenuItemPrice, Cart, CartAddon, ToppingCategoryPrice};
 use Auth;
 
 class CartController extends Controller
@@ -46,11 +46,14 @@ class CartController extends Controller
         if(!empty($request->toppings)) {
 
             foreach ($request->toppings as $key => $topping) {
+
+                $toppingAmount = ToppingCategoryPrice::whereToppingCategoryId($topping['topping_category_id'])->whereBaseId($request->base_id)->value('price');
+                
                 $topping = CartAddon::create([
                     'cart_id' => $cartItem->id,
                     'addon_id' => $topping['id'],
                     'addon_type' => 'topping',
-                    'amount' => $topping['amount']
+                    'amount' => $toppingAmount
                 ]);
                 
                 $amount = $cartItem->amount + $topping->amount;
