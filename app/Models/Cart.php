@@ -18,4 +18,8 @@ class Cart extends Model
     public function base() {
         return $this->belongsTo(Base::class);
     }
+
+    function toppings() {
+        return $this->hasMany(CartAddon::class)->whereAddonType('topping');
+    }
 }
