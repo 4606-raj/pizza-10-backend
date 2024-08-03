@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Traits\ApiResponsesTrait;
+use Razorpay\Api\Api;
+use Razorpay\Api\Errors\SignatureVerificationError;
 use App\Models\{Cart, Order};
 use Auth;
 
@@ -49,5 +51,33 @@ class OrderController extends Controller
         $order = Order::with(['user', 'cartItems.menuItem'])->without('menuItem.prices')->get();
 
         return $this->success($order);
+    }
+
+    public function razorPayCreateOrder(Request $request) {
+
+        $input = $request->validate([
+            'order_id' => 'required|exists:orders,id'
+        ]);
+
+        $order = Order::find($request->order_id);
+  
+        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+  
+        try {
+            $razorPayOrder = $api->order->create([
+                'receipt' => "Order #$request->order_id", 
+                'amount' => $order->total_amount * 100, 
+                'currency' => 'INR', 
+                'notes'=> ''
+            ]);
+
+            $razorPayOrder = $razorPayOrder->toArray();
+
+            return $this->success($razorPayOrder);
+  
+        } catch (Exception $e) {
+            return $this->success($e->getMessage());
+        }
+          
     }
 }
