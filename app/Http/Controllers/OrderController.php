@@ -44,7 +44,18 @@ class OrderController extends Controller
 
         Cart::whereUserId($userId)->update(['status' => 2]);
 
-        return $this->success();
+        // create order on razor pay
+        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+        $razorPayOrder = $api->order->create([
+            'receipt' => "Order #$order->order_id", 
+            'amount' => $order->total_amount * 100, 
+            'currency' => 'INR', 
+            'notes'=> ''
+        ]);
+
+        $order['razorPayOrder'] = $razorPayOrder->toArray();
+
+        return $this->success($order);
     }
 
     public function index() : JsonResponse {
