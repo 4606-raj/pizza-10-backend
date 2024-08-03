@@ -11,4 +11,8 @@ class CartAddon extends Model
 
     protected $guarded = [];
     protected $hidden = ['created_at', 'updated_at'];
+
+    public function topping() {
+        return $this->belongsTo(Topping::class, 'addon_id');
+    }
 }
