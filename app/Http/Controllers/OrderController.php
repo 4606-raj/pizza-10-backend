@@ -42,7 +42,7 @@ class OrderController extends Controller
 
         $order->cartItems()->sync($cart->pluck('id'));
 
-        Cart::whereUserId($userId)->update(['status' => 2]);
+        Cart::whereUserId($userId)->update(['status' => 1]);
 
         // create order on razor pay
         $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
@@ -59,7 +59,7 @@ class OrderController extends Controller
     }
 
     public function index() : JsonResponse {
-        $order = Order::with(['user', 'cartItems.menuItem'])->without('menuItem.prices')->get();
+        $order = Order::with(['user', 'cartItems.menuItem'])->without('menuItem.prices')->whereStatus(2)->get();
 
         return $this->success($order);
     }
@@ -89,6 +89,23 @@ class OrderController extends Controller
         } catch (Exception $e) {
             return $this->success($e->getMessage());
         }
-          
+    }
+
+    public function orderPaymentConfirmation(Request $request) {
+        $request->validate([
+            'order_id' => 'required',
+            'payment_status' => 'required|boolean',
+            'payment_response' => 'sometimes',
+        ]);
+
+        if($request->payment_status) {
+            $order = Order::findOrFail($request->order_id);
+            $order->update(['status' => 2, 'payment_response' => $request->payment_response]);
+            $order->first()->cartItems()->update(['status' => 2]);
+
+            return $this->success($order, "Order Confirmed");
+        }
+
+        return $this->error("Payment failed, Please retry", 403);
     }
 }

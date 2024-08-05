@@ -14,7 +14,7 @@ class CartController extends Controller
     
     public function index() : JsonResponse {
         $userId = Auth::user()->id;
-        $data = Cart::with('toppings.topping:id,name', 'menuItem:id,name')->whereStatus(1)->whereUserId($userId)->get();
+        $data = Cart::with('toppings.topping:id,name', 'menuItem:id,name')->whereIn('status', [0, 1])->whereUserId($userId)->get();
 
         return $this->success($data);
     }
@@ -29,7 +29,7 @@ class CartController extends Controller
 
         $amount = MenuItemPrice::whereMenuItemId($request->menu_item_id)->whereBaseId($request->base_id)->first();
         
-        $cartItem = Cart::whereUserId($userId)->whereMenuItemId($request->menu_item_id)->whereBaseId($request->base_id)->whereStatus(1)->first();
+        $cartItem = Cart::whereUserId($userId)->whereMenuItemId($request->menu_item_id)->whereBaseId($request->base_id)->whereIn('status', [0, 1])->first();
 
         if($cartItem) {
             $cartItem->increment('quantity');

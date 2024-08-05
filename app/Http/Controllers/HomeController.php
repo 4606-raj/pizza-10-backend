@@ -35,6 +35,17 @@ class HomeController extends Controller
             $data = $data->whereMenuCategoryId(request()->menu_category_id);
         }
 
+        if(request()->has('search') && !empty(request()->search)) {
+            $data = $data->where(function($query) {
+                $query->where('name', 'like', "%" . request()->search . "%")
+                        ->orWhere('description', 'like', "%" . request()->search . "%");
+            });
+        }
+
+        if(request()->veg && request()->nonveg) {
+            $data = $data->whereIn('is_veg', [1, 2]);
+        }
+
         $data = $data->get();
         return $this->success($data);
     }

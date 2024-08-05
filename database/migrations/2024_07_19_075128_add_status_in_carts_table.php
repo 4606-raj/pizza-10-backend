@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('carts', function (Blueprint $table) {
-            $table->integer('status')->default(1)->comment('1: default, 2: processed in order');
+            $table->integer('status')->default(0)->comment('0: default, 1: order create, payment pending, 2: processed in order');
         });
     }
 

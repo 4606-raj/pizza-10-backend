@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreignId('address_id')->constrained();
             $table->double('total_amount');
             $table->string('payment_mode');
+            $table->json('payment_response')->nullable();
+            $table->integer('status')->default(1)->comment('1: pending, 2: confirmed');
             $table->timestamps();
         });
     }
