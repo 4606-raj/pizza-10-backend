@@ -7,7 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Actions\Fortify\CreateNewUser;
 use App\Traits\ApiResponsesTrait;
 use App\Models\User;
-use DB;
+use DB, Auth;
 
 class AuthController extends Controller
 {
@@ -68,6 +68,25 @@ class AuthController extends Controller
 
     protected function sendOtp($phone_number, $otp)
     {
+    }
+
+    public function getProfile() {
+        $data = Auth::user();
+
+        return $this->success($data);
+    }
+
+    public function updateProfile(Request $request) {
+
+        $user = Auth::user();
+        
+        $user->name = $request->name ?? $user->name;
+        $user->email = $request->email ?? $user->email;
+        // $user->phone_number = $request->phone_number ?? $user->phone_number;
+        $user->gender = $request->gender ?? $user->gender;
+        $user->update();
+
+        return $this->success($user, "data updated successfully");
     }
 
 }

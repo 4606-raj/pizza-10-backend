@@ -35,4 +35,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('order', [OrderController::class, 'index']);
     Route::post('razor-pay-order', [OrderController::class, 'razorPayCreateOrder']);
     Route::post('order-payment-confirmation', [OrderController::class, 'orderPaymentConfirmation']);
+
+    Route::get('get-profile', [AuthController::class, 'getProfile']);
+    Route::post('update-profile', [AuthController::class, 'updateProfile']);
 });
