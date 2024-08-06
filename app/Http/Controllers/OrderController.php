@@ -16,7 +16,7 @@ class OrderController extends Controller
 
     public function store(Request $request) : JsonResponse {
         $input = $request->validate([
-            'address_id' => 'required',
+            'address_id' => 'sometimes',
             'payment_mode' => 'required|in:cod',
         ]);
 
@@ -37,6 +37,10 @@ class OrderController extends Controller
         $data['payment_mode'] = $request->payment_mode;
         $data['user_id'] = $userId;
         $data['total_amount'] = $totalAmount;
+        
+        if(!is_null($request->order_type)) {
+            $data['order_type'] = $request->order_type;
+        }
 
         $order = Order::create($data);
 
@@ -50,7 +54,7 @@ class OrderController extends Controller
             'receipt' => "Order #$order->order_id", 
             'amount' => $order->total_amount * 100, 
             'currency' => 'INR', 
-            'notes'=> ''
+            'notes'=> '',
         ]);
 
         $order['razorPayOrder'] = $razorPayOrder->toArray();
