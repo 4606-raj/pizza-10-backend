@@ -80,6 +80,22 @@ class HomeController extends Controller
         return $this->success($address, 'Address Added Successfully');
     }
 
+    function updateAddress(Request $request) : JsonResponse {
+        $data = $request->validate([
+                    'id' => 'required',
+                    'house_no' => 'required',
+                    'street_landmark' => 'required',
+                    'sector_village' => 'required',
+                    'city' => 'required',
+                    'state' => 'required',
+                    'details' => 'required',
+                ]);
+        
+        $address = Address::whereId($data['id'])->update($data);
+
+        return $this->success($address, 'Address Updated Successfully');
+    }
+
     public function destroyAddress($id) : JsonResponse {
         try {
             Address::findOrFail($id)->delete();

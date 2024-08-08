@@ -18,6 +18,7 @@ class OrderController extends Controller
         $input = $request->validate([
             'address_id' => 'sometimes',
             'payment_mode' => 'required|in:cod',
+            'order_type' => 'sometimes|delivery,pickup,dine-in,in-car',
         ]);
 
         $userId = Auth::user()->id;

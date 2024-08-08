@@ -28,6 +28,7 @@ Route::group(['middleware' => 'auth:api'], function() {
 
     Route::get('address', [HomeController::class, 'getAddresses']);
     Route::post('address', [HomeController::class, 'storeAddress']);
+    Route::PUT('address', [HomeController::class, 'updateAddress']);
     Route::delete('address\{id}', [HomeController::class, 'destroyAddress']);
     
 
