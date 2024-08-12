@@ -18,10 +18,10 @@ class HomeController extends Controller
     use ApiResponsesTrait;
     
     public function index() : JsonResponse {
-        // $offersCategories = OfferCategory::with('offers')->get()->keyBy('name');        
-        // $data['offers_categories'] = $offersCategories;
+        $offersCategories = OfferCategory::with('offers')->get()->keyBy('name');        
+        $data['offers_categories'] = $offersCategories;
 
-        $data['offers_categories'] = OfferCategory::with('offers')->get();
+        // $data['offers_categories'] = OfferCategory::with('offers')->get();
         $data['menu_categories'] = MenuCategory::all();
         $data['manu_items']['trending_items'] = MenuItem::filter('trending')->get();
         $data['manu_items']['best_seller'] = MenuItem::filter('best-seller')->get();
