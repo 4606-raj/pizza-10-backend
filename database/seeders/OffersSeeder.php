@@ -15,23 +15,23 @@ class OffersSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            ['title' => 'offer 1', 'code' => 'offer-1', 'description' => 'offer 1 is dummy offer'],
-            ['title' => 'offer 2', 'code' => 'offer-2', 'description' => 'offer 2 is dummy offer'],
-            ['title' => 'offer 3', 'code' => 'offer-3', 'description' => 'offer 3 is dummy offer'],
+            ['title' => 'Buy 1 Get 1 Medium', 'code' => 'get-1-medium', 'description' => 'Buy 1 Get 1 Medium', 'image' => '1+1-medium.png'],
+            ['title' => 'Buy 1 Get 1 Large', 'code' => 'get-1-large', 'description' => 'Buy 1 Get 1 Large', 'image' => '1+1-large.jpeg'],
+            ['title' => 'Buy 1 Get 1 Extra Large', 'code' => 'get-1-extra-large', 'description' => 'Buy 1 Get 1 Extra Large', 'image' => '1+1-extra-large.jpg'],
         ];
 
-        $offerCategories = OfferCategory::all();
+        $offerCategories = OfferCategory::limit(1)->get();
         
         foreach ($offerCategories as $key => $offerCategory) {
             foreach ($data as $key1 => $value) {
-                if($key == 0 && $key1 > 0) {
-                    continue;
-                }
+                // if($key == 0 && $key1 > 0) {
+                //     continue;
+                // }
                 $offerCategory->offers()->firstOrCreate($value);
             }
         }
 
-        Offer::first()->update(['image' => 'flat 50  off.png']);
+        // Offer::query()->update(['image' => 'flat 50  off.png']);
         
     }
 }

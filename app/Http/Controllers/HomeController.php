@@ -48,6 +48,16 @@ class HomeController extends Controller
             $data = $data->whereIn('is_veg', [1, 2]);
         }
 
+        // temporary feature - offer buy 1 get 1 handler
+        if(request()->has('offer_id') && !empty(request()->offer_id)) {
+            $baseId = request()->offer_id + 1;
+            $data = $data->whereRelation('prices', 'base_id', $baseId)->with(['prices' => function($q) use ($baseId) {
+                return $q->where('base_id', $baseId);
+            }]);
+        }
+
+        // end of temporary code
+
         $data = $data->get();
         return $this->success($data);
     }
