@@ -45,7 +45,7 @@ class HomeController extends Controller
         }
 
         if(request()->is_veg) {
-            $data = $data->where('is_veg', request()->is_veg);
+            $data = $data->where('is_veg', (bool) request()->is_veg);
         }
 
         // temporary feature - offer buy 1 get 1 handler
