@@ -11,16 +11,16 @@ class Order extends Model
 
     protected $guarded = [];
     
-    public function cartItems() {
-        return $this->belongsToMany(Cart::class);
-    }
+    // public function cartItems() {
+    //     return $this->belongsToMany(Cart::class);
+    // }
 
     public function user() {
         return $this->belongsTo(User::class);
     }
 
     public function menuItems() {
-        return $this->cartItems()->with('menuItem');
+        return $this->hasMany(OrderMenuItem::class);
     }
 
     public function getStatusBadgeAttribute() {

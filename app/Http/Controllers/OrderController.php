@@ -45,7 +45,7 @@ class OrderController extends Controller
 
         $order = Order::create($data);
 
-        $order->cartItems()->sync($cart->pluck('id'));
+        // $order->cartItems()->sync($cart->pluck('id'));
 
         // create order on razor pay
         $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
@@ -62,7 +62,7 @@ class OrderController extends Controller
     }
 
     public function index() : JsonResponse {
-        $order = Order::with(['user', 'cartItems.menuItem'])->without('menuItem.prices')->whereStatus(2)->get();
+        $order = Order::with(['user', 'menuItems.price', 'menuItems.menuItem:id,name,description,image,is_veg'])->whereStatus(2)->get();
 
         return $this->success($order);
     }
@@ -106,7 +106,7 @@ class OrderController extends Controller
         if($request->payment_status) {
             $order = Order::findOrFail($request->order_id);
             $order->update(['status' => 2, 'payment_response' => $request->payment_response]);
-            $order->first()->cartItems()->update(['status' => 2]);
+            // $order->first()->cartItems()->update(['status' => 2]);
 
             // need to remove cart items after moving into orders table.
             $cart = Cart::whereUserId($userId)->get();
