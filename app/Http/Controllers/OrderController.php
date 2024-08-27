@@ -7,7 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Traits\ApiResponsesTrait;
 use Razorpay\Api\Api;
 use Razorpay\Api\Errors\SignatureVerificationError;
-use App\Models\{Cart, Order};
+use App\Models\{Cart, Order, OrderMenuItem};
 use Auth;
 
 class OrderController extends Controller
@@ -46,8 +46,6 @@ class OrderController extends Controller
         $order = Order::create($data);
 
         $order->cartItems()->sync($cart->pluck('id'));
-
-        Cart::whereUserId($userId)->update(['status' => 1]);
 
         // create order on razor pay
         $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
@@ -108,6 +106,19 @@ class OrderController extends Controller
             $order->update(['status' => 2, 'payment_response' => $request->payment_response]);
             $order->first()->cartItems()->update(['status' => 2]);
 
+            // need to remove cart items after moving into orders table.
+            $cart = Cart::whereUserId($userId)->get();
+            foreach ($cart as $key => $value) {   
+                OrderMenuItem::create([
+                    'order_id' => $order->id,
+                    'menu_item_id' => $value->menu_item_id,
+                    'menu_item_price_id' => $value->menuItemPrice->id,
+                    'quantity' => $value->quantity,
+                ]);
+            }
+
+            $cart = Cart::whereUserId($userId)->delete();
+            
             return $this->success($order, "Order Confirmed");
         }
 
