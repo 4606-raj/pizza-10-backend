@@ -28,7 +28,7 @@
                         <td>{{ $order->user->name ?? '--' }}</td>
                         <td>
                           @foreach ($order->menuItems as $item)
-                              {{ $item->menuItem->name }},
+                              {{ $item->menuItem->name }} ({{ $item->price->base->name }}),
                           @endforeach
                         </td>
                         <td>{{ $order->total_amount }} INR</td>
