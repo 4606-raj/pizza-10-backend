@@ -101,6 +101,8 @@ class OrderController extends Controller
             'payment_response' => 'sometimes',
         ]);
 
+        $userId = Auth::user()->id;
+
         if($request->payment_status) {
             $order = Order::findOrFail($request->order_id);
             $order->update(['status' => 2, 'payment_response' => $request->payment_response]);
