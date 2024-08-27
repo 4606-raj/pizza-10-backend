@@ -19,7 +19,19 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    // public function menuItems() {
-    //     return $this->cartItems()->with('menuItem');
-    // }
+    public function menuItems() {
+        return $this->cartItems()->with('menuItem');
+    }
+
+    public function getStatusBadgeAttribute() {
+        $statuses = [
+            '<span class="badge badge-danger">New</span>',
+            '<span class="badge badge-warning">Preparing</span>',
+            '<span class="badge badge-warning">Prepared</span>',
+            '<span class="badge badge-info">Picked Up</span>',
+            '<span class="badge badge-success">Delivered</span>',
+        ];
+
+        return $statuses[$this->status - 1];
+    }
 }

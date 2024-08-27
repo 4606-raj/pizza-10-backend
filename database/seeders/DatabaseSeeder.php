@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             DipsSeeder::class,
             ToppingCategoriesSeeder::class,
             ToppingsSeeder::class,
+            AdminSeeder::class,
         ]);
     }
 }
