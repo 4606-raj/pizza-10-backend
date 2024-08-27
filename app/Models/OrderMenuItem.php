@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class OrderMenuItem extends Model
 {
     use HasFactory;
+
+    protected $guarded = [];
 }
