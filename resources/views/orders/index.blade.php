@@ -74,11 +74,11 @@
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuIconButton3" style="">
                               <h6 class="dropdown-header">Status</h6>
-                              <li class="dropdown-item" data-status="3">Preparing</li>
-                              <li class="dropdown-item" data-status="4">Prepared</li>
-                              <li class="dropdown-item" data-status="5">Picked Up</li>
+                              <li class="dropdown-item" data-status="3" data-id="{{ $order->id }}">Preparing</li>
+                              <li class="dropdown-item" data-status="4" data-id="{{ $order->id }}">Prepared</li>
+                              <li class="dropdown-item" data-status="5" data-id="{{ $order->id }}">Picked Up</li>
                               <div class="dropdown-divider"></div>
-                              <li class="dropdown-item" data-status="6">Delivered</li>
+                              <li class="dropdown-item" data-status="6" data-id="{{ $order->id }}">Delivered</li>
                             </div>
                           </div>
                           
@@ -106,7 +106,8 @@
     <script>
       $('.dropdown-item').click(function() {
         let status = $(this).data('status');
-        let url = `{{ route('orders.update', $order->id ?? 0) }}`;
+        let orderId = $(this).data('id');
+        let url = `{{ route('orders.update', ${orderId}) }}`;
 
         let data = {
           _token: "{{ csrf_token() }}",
