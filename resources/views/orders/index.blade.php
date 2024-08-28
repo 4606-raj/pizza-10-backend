@@ -107,7 +107,7 @@
       $('.dropdown-item').click(function() {
         let status = $(this).data('status');
         let orderId = $(this).data('id');
-        let url = `{{ route('orders.update', ${orderId}) }}`;
+        let url = `{{ route('orders.update', ':id') }}`.replace(':id', orderId);
 
         let data = {
           _token: "{{ csrf_token() }}",
