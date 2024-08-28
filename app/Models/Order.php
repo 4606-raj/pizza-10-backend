@@ -27,11 +27,11 @@ class Order extends Model
         $statuses = [
             '<span class="badge badge-danger">New</span>',
             '<span class="badge badge-warning">Preparing</span>',
-            '<span class="badge badge-warning">Prepared</span>',
-            '<span class="badge badge-info">Picked Up</span>',
+            '<span class="badge badge-info">Prepared</span>',
+            '<span class="badge badge-primary">Picked Up</span>',
             '<span class="badge badge-success">Delivered</span>',
         ];
 
-        return $statuses[$this->status - 1];
+        return $statuses[$this->status-2];
     }
 }

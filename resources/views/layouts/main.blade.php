@@ -33,6 +33,12 @@
       .main-panel {
         min-height: 100vh;
       }
+      .text-right {
+        text-align: right !important;
+      }
+      .dropdown-item {
+        cursor: pointer;
+      }
     </style>
     
     @stack('style')
