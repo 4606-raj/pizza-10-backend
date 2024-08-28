@@ -32,6 +32,6 @@ class Order extends Model
             '<span class="badge badge-success">Delivered</span>',
         ];
 
-        return $statuses[$this->status-2];
+        return isset($statuses[$this->status - 2])? $statuses[$this->status - 2]: '--';
     }
 }
