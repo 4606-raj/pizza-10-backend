@@ -52,7 +52,7 @@
   <style>
     .brand-logo {
       /* background: black; */
-      padding: 5%;
+      /* padding: 5%; */
       text-align: center;
     }
   </style>
