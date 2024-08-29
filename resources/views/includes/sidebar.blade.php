@@ -6,6 +6,7 @@
       <a class="sidebar-brand brand-logo-mini ps-4 pt-3" href="/"><img
           src="../../../assets/images/logo.png" alt="logo" /></a>
     </div>
+    <br><hr>
     <ul class="nav">
       <li class="nav-item mt-4">
         <a class="nav-link" href="/">
