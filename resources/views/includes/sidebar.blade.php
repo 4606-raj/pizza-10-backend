@@ -15,12 +15,12 @@
       </li>
 
 
-      {{-- <li class="nav-item">
+      <li class="nav-item">
         <a class="nav-link" href="{{ route('users.index') }}">
           <i class="mdi mdi-account-outline menu-icon"></i>
-          <span class="menu-title">Users</span>
+          <span class="menu-title">Customers</span>
         </a>
-      </li> --}}
+      </li>
       <li class="nav-item">
         <a class="nav-link" href="{{ route('orders.index') }}">
           <i class="mdi mdi-progress-check menu-icon"></i>

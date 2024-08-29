@@ -18,10 +18,12 @@ class UserController extends Controller
     }
 
     public function create() {
+        abort(404);
         return view('users.create');
     }
 
     public function store(Request $request): RedirectResponse {
+        abort(403);
         $input = $request->validate([
             'first_name' => 'nullable',
             'last_name' => 'nullable',
@@ -45,14 +47,10 @@ class UserController extends Controller
 
     public function update(Request $request, $id) {
         $input = $request->validate([
-            'first_name' => 'nullable',
-            'last_name' => 'nullable',
+            'name' => 'nullable',
             'email' => 'required|email|unique:users,email,'.$id,
-            'email_verified_at' => 'nullable',
             'phone_number' => 'nullable',
-            'role' => 'required',
-            'location' => 'nullable',
-            'payment_status' => 'nullable',
+            'gender' => 'nullable',
         ]);
 
         $user = User::whereId($id)->update($input);
@@ -61,6 +59,7 @@ class UserController extends Controller
     }
 
     public function destroy($id) {
+        abort(403);
         User::destroy($id);
         return redirect()->route('users.index');
     }

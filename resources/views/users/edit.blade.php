@@ -17,16 +17,9 @@
                 @csrf
                 @method('PUT')
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label">First Name</label>
+                <label class="col-sm-3 col-form-label">Name</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" name="first_name" value="{{ $user->first_name }}" placeholder="First Name">
-                </div>
-              </div>
-
-              <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Last Name</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" name="last_name" value="{{ $user->last_name }}" placeholder="Last Name">
+                  <input type="text" class="form-control" name="name" value="{{ $user->name }}" placeholder="Name">
                 </div>
               </div>
 
@@ -45,18 +38,12 @@
               </div>
 
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Location</label>
+                <label class="col-sm-3 col-form-label">Gender</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" name="location" value="{{ $user->location }}" placeholder="Location">
-                </div>
-              </div>
-
-              <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Role</label>
-                <div class="col-sm-9">
-                  <select class="form-control" name="role">
-                    <option value="2" {{ $user->role == 2? 'selected': '' }}>Student</option>
-                    <option value="3" {{ $user->role == 3? 'selected': '' }}>Parent</option>
+                  <select class="form-control" name="gender">
+                    <option value="male" {{ $user->gender == 'male'? 'selected': '' }}>Male</option>
+                    <option value="female" {{ $user->gender == 'female'? 'selected': '' }}>Female</option>
+                    <option value="other" {{ $user->gender == 'other'? 'selected': '' }}>Other</option>
                   </select>
                 </div>
               </div>

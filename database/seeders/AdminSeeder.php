@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\User;
+use App\Models\Staff;
 use Hash;
 
 class AdminSeeder extends Seeder
@@ -14,7 +14,8 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        User::firstOrCreate([
+        Staff::firstOrCreate([
+            'name' => 'Raj',
             'email' => 'admin@gmail.com',
             'password' => Hash::make(123456789),
             'role' => 1
