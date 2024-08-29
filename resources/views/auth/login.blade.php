@@ -27,7 +27,7 @@
                 <input type="password" class="form-control form-control-lg" id="exampleInputPassword1" name="password" placeholder="Password">
               </div>
               <div class="mt-3 d-grid gap-2">
-                <input type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</a>
+                <input type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" value="SIGN IN">
               </div>
               <div class="my-2 d-flex justify-content-between align-items-center">
                 {{-- <div class="form-check">
