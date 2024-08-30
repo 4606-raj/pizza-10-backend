@@ -59,20 +59,35 @@
                 @foreach ($orders as $order) 
                     <tr>
                         <td>{{ $order->user->name ?? '--' }}</td>
-                        <td>
-                          @foreach ($order->menuItems as $item)
-                              {{ $item->menuItem->name }} ({{ $item->price->base->name }}),
-                          @endforeach
+                        <td class="d-flex align-items-center">
+                          @if ($order->menuItems->count() > 1)
+
+                          {{ $order->menuItems->first()->menuItem->name }} ({{ $order->menuItems->first()->price->base->name }})
+                           + &nbsp;
+                          <div class="dropdown" style="position: inherit">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <i class="mdi mdi-eye"></i> Show
+                            </button>
+                            <div class="dropdown-menu" style="">
+                              @foreach ($order->menuItems as $item)
+                                <span class="p-4">{{ $item->menuItem->name }} ({{ $item->price->base->name }}),</span>
+                                <div class="dropdown-divider"></div>
+                              @endforeach
+                            </div>
+                          </div>
+                          @else
+                              {{ $order->menuItems->first()->menuItem->name }} ({{ $order->menuItems->first()->price->base->name }})
+                          @endif
                         </td>
                         <td>{{ $order->total_amount }} INR</td>
                         <td>{{ $order->order_type }}</td>
                         <td>{!! $order->status_badge ?? '--' !!}</td>
                         <td>
                           <div class="dropdown" style="position: inherit">
-                            <button type="button" class="btn btn-primary" id="dropdownMenuIconButton3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               <i class="mdi mdi-dots-vertical"></i>
                             </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuIconButton3" style="">
+                            <div class="dropdown-menu" style="">
                               <h6 class="dropdown-header">Status</h6>
                               <li class="dropdown-item" data-status="3" data-id="{{ $order->id }}">Preparing</li>
                               <li class="dropdown-item" data-status="4" data-id="{{ $order->id }}">Prepared</li>
