@@ -34,4 +34,9 @@ class OrderController extends Controller
 
         return Response::json(['status' => true]);
     }
+
+    public function show(Order $order) {
+        return view('orders.show', compact('order'));
+    }
+    
 }

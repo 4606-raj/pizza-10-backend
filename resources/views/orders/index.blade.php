@@ -83,17 +83,22 @@
                         <td>{{ $order->order_type }}</td>
                         <td>{!! $order->status_badge ?? '--' !!}</td>
                         <td>
-                          <div class="dropdown" style="position: inherit">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <i class="mdi mdi-dots-vertical"></i>
-                            </button>
-                            <div class="dropdown-menu" style="">
-                              <h6 class="dropdown-header">Status</h6>
-                              <li class="dropdown-item" data-status="3" data-id="{{ $order->id }}">Preparing</li>
-                              <li class="dropdown-item" data-status="4" data-id="{{ $order->id }}">Prepared</li>
-                              <li class="dropdown-item" data-status="5" data-id="{{ $order->id }}">Picked Up</li>
-                              <div class="dropdown-divider"></div>
-                              <li class="dropdown-item" data-status="6" data-id="{{ $order->id }}">Delivered</li>
+
+                          <div class="d-flex">
+                            <a href="{{ route('orders.show', $order->id) }}" class="btn btn-primary mr-4"><i class="mdi mdi-eye"></i></a>
+                            
+                            <div class="dropdown" style="position: inherit">
+                              <button type="button" class="btn btn-primary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="mdi mdi-dots-vertical"></i>
+                              </button>
+                              <div class="dropdown-menu" style="">
+                                <h6 class="dropdown-header">Status</h6>
+                                <li class="dropdown-item" data-status="3" data-id="{{ $order->id }}">Preparing</li>
+                                <li class="dropdown-item" data-status="4" data-id="{{ $order->id }}">Prepared</li>
+                                <li class="dropdown-item" data-status="5" data-id="{{ $order->id }}">Picked Up</li>
+                                <div class="dropdown-divider"></div>
+                                <li class="dropdown-item" data-status="6" data-id="{{ $order->id }}">Delivered</li>
+                              </div>
                             </div>
                           </div>
                           

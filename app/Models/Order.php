@@ -23,6 +23,10 @@ class Order extends Model
         return $this->hasMany(OrderMenuItem::class);
     }
 
+    public function Address() {
+        return $this->belongsTo(Address::class);
+    }
+
     public function getStatusBadgeAttribute() {
         $statuses = [
             '<span class="badge badge-danger">New</span>',
