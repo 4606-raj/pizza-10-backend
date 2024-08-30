@@ -59,7 +59,7 @@
                 @foreach ($orders as $order) 
                     <tr>
                         <td>{{ $order->user->name ?? '--' }}</td>
-                        <td class="d-flex align-items-center">
+                        <td class="{{ ($order->menuItems->count() > 1)? 'd-flex align-items-center': '' }}">
                           @if ($order->menuItems->count() > 1)
 
                           {{ $order->menuItems->first()->menuItem->name }} ({{ $order->menuItems->first()->price->base->name }})
