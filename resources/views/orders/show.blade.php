@@ -8,6 +8,21 @@
         <div class="card-body">
           <div class="card-title d-flex justify-content-between">
             <h4>Order Details</h4>
+
+            <div class="dropdown" style="position: inherit">
+              <button type="button" class="btn btn-primary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="mdi mdi-pencil"></i>
+                Change Status
+              </button>
+              <div class="dropdown-menu" style="">
+                <h6 class="dropdown-header">Status</h6>
+                <li class="dropdown-item" data-status="3" data-id="{{ $order->id }}">Preparing</li>
+                <li class="dropdown-item" data-status="4" data-id="{{ $order->id }}">Prepared</li>
+                <li class="dropdown-item" data-status="5" data-id="{{ $order->id }}">Picked Up</li>
+                <div class="dropdown-divider"></div>
+                <li class="dropdown-item" data-status="6" data-id="{{ $order->id }}">Delivered</li>
+              </div>
+            </div>
             
           </div>
           <div class="table-responsive">
@@ -27,26 +42,9 @@
                 @endforeach
               </tbody>
               <tfoot style="bottom: 0 !important;position: absolute;">
-                <td>Total Amount: {{ $order->total_amount }} INR</td>
-                <td>Order Type: {{ $order->order_type }}</td>
+                <td>Total Amount: <b>{{ $order->total_amount }} INR</b></td>
+                <td>Order Type: <b>{{ $order->order_type }}</b></td>
                 <td>Status: {!! $order->status_badge ?? '--' !!}</td>
-                <td>
-                  <div class="dropdown" style="position: inherit">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="mdi mdi-pencil"></i>
-                      Change Status
-                    </button>
-                    <div class="dropdown-menu" style="">
-                      <h6 class="dropdown-header">Status</h6>
-                      <li class="dropdown-item" data-status="3" data-id="{{ $order->id }}">Preparing</li>
-                      <li class="dropdown-item" data-status="4" data-id="{{ $order->id }}">Prepared</li>
-                      <li class="dropdown-item" data-status="5" data-id="{{ $order->id }}">Picked Up</li>
-                      <div class="dropdown-divider"></div>
-                      <li class="dropdown-item" data-status="6" data-id="{{ $order->id }}">Delivered</li>
-                    </div>
-                  </div>
-                </div>
-                </td>
               </tfoot>
             </table>
           </div>
