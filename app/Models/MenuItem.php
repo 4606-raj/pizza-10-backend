@@ -38,4 +38,8 @@ class MenuItem extends Model
     public function prices() {
         return $this->hasMany(MenuItemPrice::class);
     }
+
+    public function category() {
+        return $this->belongsTo(MenuCategory::class, 'menu_category_id');
+    }
 }

@@ -1,0 +1,86 @@
+@extends('layouts.main')
+
+@section('content')
+    
+<div class="content-wrapper pb-0">
+
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Edit Menu Item</h4>
+
+            @if($errors->any())
+                {!! implode('', $errors->all('<div class="alert alert-danger">:message</div>')) !!}
+            @endif
+            
+            <form class="forms-sample" action="{{ route('menu-items.update', $menuItem->id) }}" method="POST" enctype="multipart/form-data">
+              @csrf
+              @method('PUT')
+              
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Name</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="name" value="{{ $menuItem->name }}" placeholder="Enter menu item name">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Image</label>
+                <div class="col-sm-9">
+                  <input type="file" class="form-control" name="image">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Description</label>
+                <div class="col-sm-9">
+                  <textarea class="form-control" name="description" value="{{ $menuItem->description }}" placeholder="Enter menu item description"></textarea>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Menu Category</label>
+                <div class="col-sm-9">
+                  <select class="form-control" name="menu_category_id">
+                    @foreach ($menuCategories as $menuCategory)
+                      <option value="{{ $menuCategory->id }}" {{ $menuItem->category->id == $menuCategory->id? 'selected': '' }}>{{ $menuCategory->name }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Is Veg</label>
+                <div class="col-sm-9">
+                  <select class="form-control" name="is_veg">
+                    <option value="1" {{ $menuItem->is_veg == 1? 'selected': '' }}>Yes</option>
+                    <option value="0" {{ $menuItem->is_veg == 0? 'selected': '' }}>No</option>
+                  </select>
+                </div>
+              </div>
+
+              {{-- {{ dd($menuItem->prices->where('base_id', 1)) }} --}}
+              
+              <div class="row">
+                <label class="col-sm-3 col-form-label">Prices (INR)</label>
+                
+                @foreach ($bases as $base)
+                  <div class="form-group row col-2">
+                    <div class="col-sm-12">
+                      <input type="number" class="form-control" name="prices[{{ $base->id }}]" value="{{ $menuItem->prices->where('base_id', $base->id)->first()->price }}" placeholder="{{ $base->name }}">
+                    </div>
+                  </div>
+                @endforeach
+                
+              </div>
+
+              <button type="submit" class="btn btn-primary me-2">Submit</button>
+              <button class="btn btn-light">Cancel</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    
+</div>
+
+@endsection
