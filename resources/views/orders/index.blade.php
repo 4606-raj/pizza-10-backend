@@ -76,7 +76,7 @@
                             </div>
                           </div>
                           @else
-                              {{ $order->menuItems->first()->menuItem->name }} ({{ $order->menuItems->first()->price->base->name }})
+                              {{ $order->menuItems->first()->menuItem->name ?? '--' }} ({{ $order->menuItems->first()->price->base->name ?? '--' }})
                           @endif
                         </td>
                         <td>{{ $order->total_amount }} INR</td>
