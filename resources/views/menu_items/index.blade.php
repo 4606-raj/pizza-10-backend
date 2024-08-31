@@ -26,7 +26,9 @@
                 @foreach ($menuItems as $menu_item) 
                     <tr>
                         <td>{{ $menu_item->name }}</td>
-                        <td><img src="{{ asset('storage/' . $menu_item->image) }}" alt="Menu Item Image" width="50"></td>
+                        <td>
+                          <img src="{{ $menu_item->image }}" alt="Menu Item Image" class="img-thumbnail">
+                        </td>
                         <td>{{ $menu_item->description }}</td>
                         <td>{{ $menu_item->category->name ?? '--' }}</td>
                         <td>{{ $menu_item->is_veg ? 'Yes' : 'No' }}</td>
@@ -49,3 +51,12 @@
 </div>
 
 @endsection
+
+@push('style')
+    <style>
+      .img-thumbnail {
+        width: 50px !important;
+        height: 50px !important;
+      }
+    </style>
+@endpush

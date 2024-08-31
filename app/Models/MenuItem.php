@@ -42,4 +42,11 @@ class MenuItem extends Model
     public function category() {
         return $this->belongsTo(MenuCategory::class, 'menu_category_id');
     }
+
+    public function getImageAttribute($val) : string {
+        if(!is_null($val)) {
+            return asset('storage/images/menu-items/' . $val);
+        }
+        return asset('storage/images/default.jpg');
+    }
 }

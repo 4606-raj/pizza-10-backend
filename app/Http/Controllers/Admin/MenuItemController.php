@@ -54,7 +54,7 @@ class MenuItemController extends Controller
 
         $menuItem = new MenuItem();
         $menuItem->name = $request->input('name');
-        $menuItem->image = $request->file('image')->store(public_path('storage/images/menu-items'));
+        $menuItem->image = fileUpload($request->file('image'), 'images/menu-items');
 
         $menuItem->description = $request->input('description');
         $menuItem->menu_category_id = $request->input('menu_category_id');
@@ -117,7 +117,7 @@ class MenuItemController extends Controller
         $menuItem = MenuItem::find($id);
         $menuItem->name = $request->input('name');
         if ($request->hasFile('image')) {
-            $menuItem->image = $request->file('image')->store('public/images');
+            $menuItem->image = fileUpload($request->file('image'), 'images/menu-items');
         }
         $menuItem->description = $request->input('description');
         $menuItem->menu_category_id = $request->input('menu_category_id');
