@@ -23,6 +23,12 @@
         </a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="{{ route('staff.index') }}">
+          <i class="mdi mdi-account-supervisor menu-icon"></i>
+          <span class="menu-title">Staff</span>
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="{{ route('orders.index') }}">
           <i class="mdi mdi-progress-check menu-icon"></i>
           <span class="menu-title">Orders</span>

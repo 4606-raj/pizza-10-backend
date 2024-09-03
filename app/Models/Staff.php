@@ -20,4 +20,13 @@ class Staff extends Model implements AuthenticatableContract
         'password',
         'role',
     ];
+
+    public function getRoleBadgeAttribute() {
+        $roles = [
+            '<span class="badge badge-dark">Kitchen Saff</span>',
+            '<span class="badge badge-dark">Delivery Staff</span>',
+        ];
+
+        return isset($roles[$this->role - 2])? $roles[$this->role - 2]: '--';
+    }
 }
