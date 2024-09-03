@@ -1,15 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\HomeController;
-use App\Http\Controllers\Admin\MenuItemController;
-use App\Http\Controllers\Admin\StaffController;
 
 Route::view('/login', 'auth.login')->name('login');
 
-Route::group(['middleware' => 'admin'], function() {
+Route::group(['middleware' => 'admin', 'namespace' => 'App\Http\Controllers\Admin'], function() {
     
     Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 

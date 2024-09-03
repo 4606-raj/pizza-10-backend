@@ -37,6 +37,19 @@
           </div>
         </div>
       </div>
+
+      <div class="col-xl-3 col-md-3 stretch-card grid-margin grid-margin-sm-0 pb-sm-3">
+        <div class="card bg-success">
+          <div class="card-body px-3 py-4">
+            <div class="d-flex justify-content-between align-items-start">
+              <div class="color-card">
+                <p class="mb-0 color-card-head">Total Staff</p>
+                <h2 class="text-white">{{ $data['staff'] }}</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       
     </div>
     

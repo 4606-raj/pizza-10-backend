@@ -7,7 +7,7 @@
           src="../../../assets/images/logo.png" alt="logo" /></a>
     </div>
     <br><hr>
-    <ul class="nav">
+    <ul class="nav" style="height: 100vh;">
       <li class="nav-item mt-4">
         <a class="nav-link" href="/">
           <i class="mdi mdi-home menu-icon"></i>
@@ -41,14 +41,15 @@
         </a>
       </li>
       
-      <li class="nav-item logout-btn mt-4">
+      <li class="nav-item logout-btn mt-4" style="bottom: 5%; position: absolute;">
         <form action="{{ route('logout') }}" method="POST">
             @csrf
-            <button class="nav-link" href="{{ route('logout') }}">
+            <button class="btn btn-lg btn-primary" href="{{ route('logout') }}">
               <i class="mdi mdi-logout menu-icon"></i>
               <span class="menu-title">Logout</span>
             </button>
         </form>
+      </li>
       
     </ul>
   </nav>
