@@ -28,6 +28,12 @@
           <span class="menu-title">Orders</span>
         </a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('menu-items.index') }}">
+          <i class="mdi mdi-pizza menu-icon"></i>
+          <span class="menu-title">Menu Items</span>
+        </a>
+      </li>
       
       <li class="nav-item logout-btn mt-4">
         <form action="{{ route('logout') }}" method="POST">

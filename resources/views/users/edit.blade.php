@@ -48,8 +48,10 @@
                 </div>
               </div>
 
-              <button type="submit" class="btn btn-primary me-2">Submit</button>
-              <button class="btn btn-light">Cancel</button>
+              <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary me-2">Update</button>
+                <button class="btn btn-light">Cancel</button>
+              </div>
             </form>
           </div>
         </div>

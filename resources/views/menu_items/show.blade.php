@@ -21,7 +21,7 @@
                 </tr>
                 <tr>
                   <th>Image:</th>
-                  <td><img src="{{ asset('storage/' . $menuItem->image) }}" alt="Menu Item Image" width="100"></td>
+                  <td><img src="{{ $menuItem->image }}" alt="Menu Item Image" width="100" /></td>
                 </tr>
                 <tr>
                   <th>Description:</th>
@@ -36,7 +36,7 @@
                   <td>{{ $menuItem->is_veg ? 'Yes' : 'No' }}</td>
                 </tr>
                 <tr>
-                  <th colspan="2" class="text-center">Prices (INR):</th>
+                  <th colspan="2" class="text-center"><h4>Prices (INR):</h4></th>
                   @foreach ($menuItem->prices as $price)
                     <tr>
                       <th>{{ $price->base->name }}</th>

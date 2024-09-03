@@ -34,7 +34,7 @@
               <div class="form-group row">
                 <label class="col-sm-3 col-form-label">Description</label>
                 <div class="col-sm-9">
-                  <textarea class="form-control" name="description" value="{{ $menuItem->description }}" placeholder="Enter menu item description"></textarea>
+                  <textarea class="form-control" name="description" placeholder="Enter menu item description">{{ $menuItem->description }}</textarea>
                 </div>
               </div>
 
@@ -74,8 +74,10 @@
                 
               </div>
 
-              <button type="submit" class="btn btn-primary me-2">Submit</button>
-              <button class="btn btn-light">Cancel</button>
+              <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary me-2">Update</button>
+                <button class="btn btn-light">Cancel</button>
+              </div>
             </form>
           </div>
         </div>
