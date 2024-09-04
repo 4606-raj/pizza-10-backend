@@ -19,8 +19,20 @@ class MenuItemController extends Controller
      */
     public function index()
     {
-        $menuItems = MenuItem::latest()->paginate(10);
-        return view('menu_items.index', compact('menuItems'));
+        $menuItems = MenuItem::latest();
+        $categories = MenuCategory::all();
+
+        if(request()->has('menu_category_id') && !empty(request()->menu_category_id)) {
+            $menuItems = $menuItems->whereMenuCategoryId(request()->menu_category_id);
+        }
+
+        if(request()->has('is_veg') && (request()->is_veg == 0 || request()->is_veg == 1)) {
+            $menuItems = $menuItems->whereIsVeg(request()->is_veg);
+        }
+
+        $menuItems = $menuItems->paginate(10);
+        
+        return view('menu_items.index', compact('menuItems', 'categories'));
     }
 
     /**
