@@ -41,12 +41,12 @@
         </a>
       </li>
 
-      <li class="nav-item">
+      {{-- <li class="nav-item">
         <a class="nav-link" href="{{ route('offers.index') }}">
           <i class="mdi mdi-tag-outline menu-icon"></i>
           <span class="menu-title">Offers</span>
         </a>
-      </li>
+      </li> --}}
       
       <li class="nav-item logout-btn mt-4" style="bottom: 5%; position: absolute;">
         <form action="{{ route('logout') }}" method="POST">
