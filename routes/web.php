@@ -12,6 +12,7 @@ Route::group(['middleware' => 'admin', 'namespace' => 'App\Http\Controllers\Admi
     Route::resource('users', UserController::class);
     Route::resource('orders', OrderController::class);
     Route::resource('menu-items', MenuItemController::class);
+    Route::resource('offers', OfferController::class);
     Route::resource('staff', StaffController::class);
 });
 

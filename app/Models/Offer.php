@@ -19,4 +19,12 @@ class Offer extends Model
         }
         return asset('storage/images/default.jpg');
     }
+
+    public function offerType() {
+        return $this->belongsTo(OfferType::class);
+    }
+
+    public function offerCategory() {
+        return $this->belongsTo(OfferType::class);
+    }
 }
