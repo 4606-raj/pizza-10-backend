@@ -27,4 +27,12 @@ class Offer extends Model
     public function offerCategory() {
         return $this->belongsTo(OfferType::class);
     }
+
+    public function menuItems() {
+        return $this->belongsToMany(MenuItem::class);
+    }
+
+    public function users() {
+        return $this->belongsToMany(User::class);
+    }
 }

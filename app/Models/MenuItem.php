@@ -49,4 +49,13 @@ class MenuItem extends Model
         }
         return asset('storage/images/default.jpg');
     }
+    
+    public function offers() {
+        return $this->belongsToMany(Offer::class);
+    }
+
+    public function bases() {
+        return $this->belongsToMany(Base::class);
+    }
+
 }

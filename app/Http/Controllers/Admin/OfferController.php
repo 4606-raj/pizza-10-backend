@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-Use App\Models\{Offer, OfferType, OfferCategory};
+Use App\Models\{Offer, OfferType, OfferCategory, MenuItem, Base};
 
 class OfferController extends Controller
 {
@@ -82,4 +82,41 @@ class OfferController extends Controller
     
         return redirect()->route('offers.index')->with('success', 'Offer updated successfully!');
     }
+
+    public function settingsPage($offerId) {
+        $offer = Offer::findOrFail($offerId);
+        $menuItems = MenuItem::all();
+        $bases = Base::all();
+
+        return view('offers.settings', compact('offer', 'menuItems', 'bases'));
+    }
+
+    public function settingsStore(Request $request) {
+
+        $offer = Offer::find($request->offer_id);
+        if ($request->has('base_ids') && !empty($request->base_ids)) {
+        
+            foreach ($request->base_ids as $key => $baseId) {
+                $base = Base::find($baseId);
+    
+                if ($base) {
+                    $menuItems = $base->menuItems;
+    
+                    foreach ($menuItems as $menuItem) {
+                        $offer->menuItems()->attach($menuItem->id, ['base_id' => $baseId]);
+                    }
+                }
+            }
+        }
+
+        if ($request->has('menu_item') && !empty($request->menu_item)) {
+            foreach ($request->menu_item as $menuItem) {
+                foreach ($menuItem['base_ids'] as $baseId) {
+                    $offer->menuItems()->attach($menuItem['id'], ['base_id' => $baseId]);
+                }
+                
+            }
+        }
+    }
+    
 }

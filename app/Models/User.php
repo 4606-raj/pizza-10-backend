@@ -56,4 +56,8 @@ class User extends Authenticatable
     public function defaultAddress() {
         return $this->hasMany(Address::class)->whereIsDefault(true);
     }
+
+    public function offers() {
+        return $this->hasMany(Offer::class);
+    }
 }

@@ -38,6 +38,7 @@
                       <td><img src="{{ $value->image }}" alt="" class="img-thumbnail"></td>
                         <td>
                             <a href="{{ route('offers.edit', $value->id) }}" class="btn btn-primary"><i class="mdi mdi-pencil"></i></a>
+                            <a href="{{ route('offers.settings.create', $value->id) }}" class="btn btn-primary"><i class="mdi mdi-settings"></i></a>
                             {{-- <a href="{{ route('offers.destroy', $value->id) }}" class="btn btn-danger delete-btn"><i class="mdi mdi-trash-can"></i></a> --}}
                         </td>
                     </tr>

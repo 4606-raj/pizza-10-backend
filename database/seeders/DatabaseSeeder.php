@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             ToppingCategoriesSeeder::class,
             ToppingsSeeder::class,
             AdminSeeder::class,
+            // BaseMenuItemsSeeder::class,
         ]);
     }
 }
