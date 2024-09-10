@@ -46,9 +46,10 @@ class StaffController extends Controller
             'email' => 'required|email|unique:staff,email,'.$id,
             'password' => 'nullable|confirmed',
             'password_confirmation' => 'nullable|required_with:password',
+            'role' => 'required',
         ]);
 
-        $input = collect($input)->only(['name', 'email']);
+        $input = collect($input)->only(['name', 'email', 'role']);
         
         if($request->has('password') && !empty($request->password)) {
             $input['password'] = Hash::make($request->password);
