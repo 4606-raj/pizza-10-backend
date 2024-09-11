@@ -81,7 +81,7 @@ class OrderController extends Controller
     }
 
     public function index() : JsonResponse {
-        $order = Order::with(['user', 'menuItems.price', 'menuItems.menuItem:id,name,description,image,is_veg'])->get();
+        $order = Order::with(['user', 'menuItems.price', 'menuItems.menuItem:id,name,description,image,is_veg'])->whereUserId(Auth::user()->id)->get();
 
         return $this->success($order);
     }
