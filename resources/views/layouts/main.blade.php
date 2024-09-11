@@ -134,6 +134,30 @@
       window.location.reload();
     }
   });
+
+  $('.remove-btn').on('click', function(event) {
+    event.preventDefault();
+    var url = $(this).attr('href');
+    var confirmMessage = 'Are you sure you want to delete this?';
+    if (confirm(confirmMessage)) {
+
+      $.ajax({
+        method: 'GET',
+        url: url,
+        data: {
+          _token: "{{ csrf_token() }}"
+        },
+        success: function(data) {
+          
+        },
+        error: function(xhr, status, error) {
+          console.log('Error deleting storage box:', error);
+        }
+    });
+      
+      window.location.reload();
+    }
+  });
   
   $(document).ready(function() {
     $('.select2').select2();

@@ -50,7 +50,8 @@
             <span class="menu-title">Offers</span>
           </a>
         </li> --}}
-        
+
+      @endif
         <li class="nav-item logout-btn mt-4" style="bottom: 5%; position: absolute;">
           <form action="{{ route('logout') }}" method="POST">
               @csrf
@@ -60,7 +61,6 @@
               </button>
           </form>
         </li>
-      @endif
       
     </ul>
   </nav>

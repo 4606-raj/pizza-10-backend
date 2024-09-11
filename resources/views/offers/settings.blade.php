@@ -87,6 +87,63 @@
           </div>
         </div>
       </div>
+
+      <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">List Of Offer's Menu Items</h4>
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Image</th>
+                    <th>Description</th>
+                    <th>Menu Category</th>
+                    <th>Is Veg</th>
+                    <th>Base</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  @if (!$offerMenuItems->count())
+                      <tr>
+                        <td colspan="7" class="text-center"><h4>No Data Found</h4></td>
+                      </tr>
+                  @endif
+                  @foreach ($offerMenuItems as $menuItem)
+
+                    @php
+                        $base = $bases->filter(function($base) use ($menuItem) {return $base['id'] == $menuItem->pivot->base_id; })->first()
+                    @endphp
+                  
+                    <tr>
+                        <td>{{ $menuItem->name }}</td>
+                        <td>
+                          <img src="{{ $menuItem->image }}" alt="Menu Item Image" class="img-thumbnail">
+                        </td>
+                        <td>{{ $menuItem->description }}</td>
+                        <td>{{ $menuItem->category->name ?? '--' }}</td>
+                        <td>{{ $menuItem->is_veg ? 'Yes' : 'No' }}</td>
+                        <td>{{ $base->name }}</td>
+                        <td>
+                            <a href="{{ route('offers.settings.remove-menu-items', [$offer->id, $menuItem->id, $base->id]) }}" class="btn btn-danger remove-btn"><i class="mdi mdi-trash-can"></i></a>
+                        </td>
+                    </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end mr-4">
+            {{ $offerMenuItems->links() }}
+          </div>
+          
+        </div>
+      </div>
+      
     </div>
     
 </div>

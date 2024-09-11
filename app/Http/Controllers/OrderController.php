@@ -45,6 +45,25 @@ class OrderController extends Controller
 
         $order = Order::create($data);
 
+        if($request->payment_mode == 'cod') {
+            $order->update(['status' => 2, 'payment_response' => $request->payment_response]);
+
+            // need to remove cart items after moving into orders table.
+            $cart = Cart::whereUserId($userId)->get();
+            foreach ($cart as $key => $value) {   
+                OrderMenuItem::create([
+                    'order_id' => $order->id,
+                    'menu_item_id' => $value->menu_item_id,
+                    'menu_item_price_id' => $value->menuItemPrice->id,
+                    'quantity' => $value->quantity,
+                ]);
+            }
+
+            $cart = Cart::whereUserId($userId)->delete();
+            
+            return $this->success($order, "Order Confirmed");
+        }
+        
         // $order->cartItems()->sync($cart->pluck('id'));
 
         // create order on razor pay

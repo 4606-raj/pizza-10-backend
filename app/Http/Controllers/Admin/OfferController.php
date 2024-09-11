@@ -88,7 +88,9 @@ class OfferController extends Controller
         $menuItems = MenuItem::all();
         $bases = Base::all();
 
-        return view('offers.settings', compact('offer', 'menuItems', 'bases'));
+        $offerMenuItems = $offer->MenuItems()->withPivot('base_id')->paginate(10);
+
+        return view('offers.settings', compact('offer', 'menuItems', 'bases', 'offerMenuItems'));
     }
 
     public function settingsStore(Request $request) {
@@ -117,6 +119,16 @@ class OfferController extends Controller
                 
             }
         }
+
+        return redirect()->back();
+    }
+
+    public function settingsRemoveMenuItem($offerId, $menuItemId, $baseId) {
+        $offer = Offer::findOrFail($offerId);
+
+        $offer->menuItems()->wherePivot('base_id', $baseId)->detach($menuItemId);
+
+        return redirect()->back()->with('succuss', 'Menu Item removed from offer');
     }
     
 }
