@@ -40,3 +40,8 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('get-profile', [AuthController::class, 'getProfile']);
     Route::post('update-profile', [AuthController::class, 'updateProfile']);
 });
+
+
+Route::get('delete-user-data', function() {
+    return true;
+});
