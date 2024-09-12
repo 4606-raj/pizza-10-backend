@@ -97,15 +97,17 @@ class OfferController extends Controller
 
         $offer = Offer::find($request->offer_id);
         if ($request->has('base_ids') && !empty($request->base_ids)) {
-        
             foreach ($request->base_ids as $key => $baseId) {
                 $base = Base::find($baseId);
-    
+        
                 if ($base) {
                     $menuItems = $base->menuItems;
-    
+        
                     foreach ($menuItems as $menuItem) {
-                        $offer->menuItems()->attach($menuItem->id, ['base_id' => $baseId]);
+                        $existingPivot = $offer->menuItems()->wherePivot('menu_item_id', $menuItem->id)->wherePivot('base_id', $baseId)->first();
+                        if (!$existingPivot) {
+                            $offer->menuItems()->attach($menuItem->id, ['base_id' => $baseId]);
+                        }
                     }
                 }
             }
@@ -114,7 +116,13 @@ class OfferController extends Controller
         if ($request->has('menu_item') && !empty($request->menu_item)) {
             foreach ($request->menu_item as $menuItem) {
                 foreach ($menuItem['base_ids'] as $baseId) {
-                    $offer->menuItems()->attach($menuItem['id'], ['base_id' => $baseId]);
+                    // $offer->menuItems()->attach($menuItem['id'], ['base_id' => $baseId]);
+                    // $offer->menuItems()->sync([$menuItem['id'] => ['base_id' => $baseId]]);
+
+                    $existingPivot = $offer->menuItems()->wherePivot('menu_item_id', $menuItem['id'])->wherePivot('base_id', $baseId)->first();
+                    if (!$existingPivot) {
+                        $offer->menuItems()->attach($menuItem['id'], ['base_id' => $baseId]);
+                    }
                 }
                 
             }
@@ -127,6 +135,14 @@ class OfferController extends Controller
         $offer = Offer::findOrFail($offerId);
 
         $offer->menuItems()->wherePivot('base_id', $baseId)->detach($menuItemId);
+
+        return redirect()->back()->with('succuss', 'Menu Item removed from offer');
+    }
+
+    public function settingsRemoveAllMenuItem($offerId) {
+        $offer = Offer::findOrFail($offerId);
+
+        $offer->menuItems()->detach();
 
         return redirect()->back()->with('succuss', 'Menu Item removed from offer');
     }

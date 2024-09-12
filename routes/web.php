@@ -18,6 +18,7 @@ Route::group(['middleware' => 'admin', 'namespace' => 'App\Http\Controllers\Admi
     Route::get('/offers/settings/{offerId}', [OfferController::class, 'settingsPage'])->name('offers.settings.create');
     Route::post('/offers/settings', [OfferController::class, 'settingsStore'])->name('offers.settings.store');
     Route::get('/offers/settings/remove-menu-item/{offerId}/{menuItemId}/{baseId}', [OfferController::class, 'settingsRemoveMenuItem'])->name('offers.settings.remove-menu-items');
+    Route::get('/offers/settings/remove-all-menu-item/{offerId}', [OfferController::class, 'settingsRemoveAllMenuItem'])->name('offers.settings.remove-all-menu-items');
 });
 
 Route::post('/payment', [App\Https\Controllers\OrderController::class, 'payment'])->name('razorpay.payment.store');

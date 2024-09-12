@@ -91,7 +91,10 @@
       <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
-            <h4 class="card-title">List Of Offer's Menu Items</h4>
+            <div class="d-flex justify-content-between align-items-center">
+              <h4 class="card-title">List Of Offer's Menu Items</h4>
+              <a href="{{ route('offers.settings.remove-all-menu-items', $offer->id) }}" class="btn btn-danger remove-btn" style="margin-bottom: 0.75rem">Delete All</a>
+            </div>
             <div class="table-responsive">
               <table class="table table-hover">
                 <thead>
