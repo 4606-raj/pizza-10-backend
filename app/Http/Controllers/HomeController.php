@@ -10,6 +10,7 @@ use App\Models\MenuItem;
 use App\Models\OfferCategory;
 use App\Models\Address;
 use App\Models\ToppingCategory;
+use App\Models\OfferType;
 use Auth;
 
 class HomeController extends Controller
@@ -123,5 +124,10 @@ class HomeController extends Controller
     public function toppingsList() : JsonResponse {
         $data = ToppingCategory::with('toppings', 'prices')->get();
         return $this->success($data);
+    }
+
+    public function offers() {
+        $offers['types'] = OfferType::with('offers')->get();
+        return $this->success($offers);
     }
 }

@@ -19,6 +19,7 @@ Route::get('index', [HomeController::class, 'index']);
 Route::get('show/{id}', [HomeController::class, 'show']);
 Route::get('menu', [HomeController::class, 'menu']);
 Route::get('toppings', [HomeController::class, 'toppingsList']);
+Route::get('offers', [HomeController::class, 'offers']);
 
 Route::group(['middleware' => 'auth:api'], function() {
     Route::get('cart', [CartController::class, 'index']);
