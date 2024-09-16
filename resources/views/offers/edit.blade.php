@@ -111,7 +111,7 @@
               </fieldset>
               
               <div class="text-center mt-4">
-                <button type="submit" class="btn btn-primary me-2">Create</button>
+                <button type="submit" class="btn btn-primary me-2">Update</button>
                 <button class="btn btn-light">Cancel</button>
               </div>
             </form>
