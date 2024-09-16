@@ -52,9 +52,14 @@ class HomeController extends Controller
 
         // temporary feature - offer buy 1 get 1 handler
         if(request()->has('offer_id') && !empty(request()->offer_id)) {
-            $baseId = request()->offer_id + 1;
-            $data = $data->whereRelation('prices', 'base_id', $baseId)->with(['prices' => function($q) use ($baseId) {
-                return $q->where('base_id', $baseId);
+
+            $offerId = request()->offer_id;
+
+            $data = $data->whereHas('offers', function ($query) use ($offerId) {
+                $query->where('offer_id', $offerId);
+            })->with(['prices' => function ($query) {
+                $query->join('menu_item_offer', 'menu_item_offer.menu_item_id', '=', 'menu_item_prices.menu_item_id')
+                      ->whereColumn('menu_item_prices.base_id', '=', 'menu_item_offer.base_id');
             }]);
         }
 

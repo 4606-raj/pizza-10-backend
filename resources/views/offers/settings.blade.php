@@ -48,7 +48,7 @@
               </div>
       
               <div class="text-center mt-4">
-                <button type="submit" class="btn btn-primary me-2">Create</button>
+                <button type="submit" class="btn btn-primary me-2">Add</button>
                 <a href="{{ route('offers.index') }}" class="btn btn-light">Cancel</a>
               </div>
             </form>
@@ -80,7 +80,7 @@
               </div>
       
               <div class="text-center mt-4">
-                <button type="submit" class="btn btn-primary me-2">Create</button>
+                <button type="submit" class="btn btn-primary me-2">Add</button>
                 <a href="{{ route('offers.index') }}" class="btn btn-light">Cancel</a>
               </div>
             </form>
