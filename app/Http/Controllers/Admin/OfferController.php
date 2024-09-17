@@ -31,7 +31,12 @@ class OfferController extends Controller
             'condition' => 'required|string',
             'condition_value' => 'required|numeric',
             'condition_type' => 'required|string',
+            'image' => 'nullable|file:mime_type:jpeg,jpg,png',
         ]);
+
+        if($request->hasFile('image')) {
+            $validatedData['image'] = fileUpload($request->image, 'images/offers');
+        }
 
         $offer = Offer::create([
             'title' => $validatedData['title'],
@@ -43,6 +48,7 @@ class OfferController extends Controller
             'condition' => $validatedData['condition'],
             'condition_value' => $validatedData['condition_value'],
             'condition_type' => $validatedData['condition_type'],
+            'image' => $validatedData['image'],
         ]);
 
         return redirect()->route('offers.index')->with('success', 'Offer created successfully!');
@@ -66,7 +72,12 @@ class OfferController extends Controller
             'condition' => 'required|string',
             'condition_value' => 'required|numeric',
             'condition_type' => 'required|string',
+            'image' => 'nullable|file:mime_type:jpeg,jpg,png',
         ]);
+
+        if($request->hasFile('image')) {
+            $validatedData['image'] = fileUpload($request->image, 'images/offers');
+        }
     
         $offer->update([
             'title' => $validatedData['title'],
@@ -78,6 +89,7 @@ class OfferController extends Controller
             'condition' => $validatedData['condition'],
             'condition_value' => $validatedData['condition_value'],
             'condition_type' => $validatedData['condition_type'],
+            'image' => $validatedData['image'],
         ]);
     
         return redirect()->route('offers.index')->with('success', 'Offer updated successfully!');

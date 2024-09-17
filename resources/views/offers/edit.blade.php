@@ -58,6 +58,13 @@
                     <input type="number" class="form-control" name="offer_value" value="{{ $offer->offer_value }}" placeholder="Offer Value">
                   </div>
                 </div>
+
+                <div class="form-group col-6 d-flex align-items-center">
+                  <label class="col-sm-3 col-form-label">Image</label>
+                  <div class="col-sm-9">
+                    <input type="file" class="form-control" name="image" placeholder="Image">
+                  </div>
+                </div>
                 
               </div>
 
