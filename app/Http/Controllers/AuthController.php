@@ -24,8 +24,8 @@ class AuthController extends Controller
             'phone_number' => 'required|digits:10',
         ]);
 
-        // $otp = rand(100000, 999999);
-        $otp = 111000;
+        $otp = rand(100000, 999999);
+        // $otp = 111000;
 
         try {        
             // sent OTP
@@ -33,10 +33,10 @@ class AuthController extends Controller
             $auth_token = getenv("TWILIO_AUTH_TOKEN");
             $twilio_number = getenv("TWILIO_NUMBER");
 
-            // $client = new Client($account_sid, $auth_token);
+            $client = new Client($account_sid, $auth_token);
             
-            // $client->messages->create('+91' . $request->phone_number, 
-            //         ['from' => $twilio_number, 'body' => 'Pizza 10 OTP - ' . $otp] );
+            $client->messages->create('+91' . $request->phone_number, 
+                    ['from' => $twilio_number, 'body' => 'Welcome to Pizza 10, Your OTP is ' . $otp] );
             
             $expires_at = now()->addMinutes(10);
 
