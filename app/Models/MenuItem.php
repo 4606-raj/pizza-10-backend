@@ -58,4 +58,8 @@ class MenuItem extends Model
         return $this->belongsToMany(Base::class);
     }
 
+    public function carts() {
+        return $this->belongsToMany(MenuItem::class);
+    }
+
 }

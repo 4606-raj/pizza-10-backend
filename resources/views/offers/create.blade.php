@@ -70,7 +70,7 @@
               <hr>
 
               <fieldset>
-                <h6>Offer Condiction Details:</h6>
+                <h6>Offer Condition Details:</h6>
 
                 <div class="row d-flex">
                   <div class="form-group col-6 d-flex align-items-center">

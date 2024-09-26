@@ -11,8 +11,8 @@ class Cart extends Model
 
     protected $guarded = [];
 
-    public function menuItem() {
-        return $this->belongsTo(MenuItem::class);
+    public function menuItems() {
+        return $this->belongsToMany(MenuItem::class);
     }
 
     public function base() {
