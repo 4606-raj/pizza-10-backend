@@ -14,7 +14,7 @@ class CartController extends Controller
     
     public function index() : JsonResponse {
         $userId = Auth::user()->id;
-        $data = Cart::with('toppings.topping:id,name', 'menuItem:id,name')->whereIn('status', [0, 1])->whereUserId($userId)->get();
+        $data = Cart::with('toppings.topping:id,name', 'menuItems:id,name')->whereIn('status', [0, 1])->whereUserId($userId)->get();
 
         return $this->success($data);
     }
@@ -51,7 +51,7 @@ class CartController extends Controller
             $cart->menuItems()->attach($request->menu_item_id, ['base_id' => $request->base_id, 'amount' => $amount->price, 'quantity' => 1]);
 
             $cart->total_amount = $amount->price;
-            $cart->total_quantity = 1;
+            $cart->total_quantity = ($cart->total_quantity ?? 0) + 1;
         }
 
         $cart->save();
@@ -63,17 +63,18 @@ class CartController extends Controller
                 $toppingAmount = ToppingCategoryPrice::whereToppingCategoryId($topping['topping_category_id'])->whereBaseId($request->base_id)->value('price');
                 
                 $topping = CartAddon::create([
-                    'cart_id' => $cartItem->id,
+                    'cart_id' => $cart->id,
                     'addon_id' => $topping['id'],
                     'addon_type' => 'topping',
                     'amount' => $toppingAmount
                 ]);
                 
-                $amount = $cartItem->amount + $topping->amount;
+                $amount = $cart->total_amount + $topping->amount;
                 $data['toppings'][] = $topping;
             }
-            $cartItem->amount = $amount;
-            $cartItem->save();
+            $cart->total_amount = $amount;
+            $cart->discounted_amount = $amount;
+            $cart->save();
         }
 
         if($request->offer_id) {
@@ -91,16 +92,16 @@ class CartController extends Controller
 
         // Conditions
 
-        $cartValue = $offer->condition_type == config('constants.offer_condition_types')[0]? $cart->amount: $cart->quantity;
+        $cartValue = $offer->condition_type == config('constants.offer_condition_types')[0]? $cart->total_amount: $cart->total_quantity;
 
         if($offer->condition == config('constants.offer_conditions')[0]) {
-            if($offer->condition_value > $cartValue) {
+            if($offer->condition_value < $cartValue) {
                 return $cart;
             }
         }
 
         else if($offer->condition == config('constants.offer_conditions')[1]) {
-            if($offer->condition_value < $cartValue) {
+            if($offer->condition_value > $cartValue) {
                 return $cart;
             }
         }
@@ -112,20 +113,22 @@ class CartController extends Controller
         }
         
         // Flat Off
-        if($offer->type->name == 'Flat Off') {
-            $cart->amount = $cart->amount - $offer->value;
+        if($offer->offerType->name == 'Flat Off') {
+            $cart->offer_deduction = $offer->offer_value;
+            $cart->discounted_amount = $cart->total_amount - $offer->offer_value;
             $cart->save();
         }
 
         // Percent Off
-        if($offer->type->name == 'Percent Off') {
-            $offAmount = ($cart->amount / 100) * $offer->value;
-            $cart->amount = $cart->amount - $offAmount;
+        if($offer->offerType->name == 'Percent Off') {
+            $offAmount = ($cart->total_amount / 100) * $offer->offer_value;
+            $cart->offer_deduction = $offAmount;
+            $cart->discounted_amount = $cart->total_amount - $offAmount;
             $cart->save();
         }
         // Buy One Get One
-        if($offer->type->name == 'Buy One Get One') {
-            $cart->amount = $cart->amount - $offAmount;
+        if($offer->offerType->name == 'Buy One Get One') {
+            $cart->total_amount = $cart->total_amount - $offAmount;
             $cart->save();
         }
 

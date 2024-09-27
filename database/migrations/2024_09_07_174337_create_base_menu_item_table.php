@@ -28,6 +28,6 @@ class CreateBaseMenuItemTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('menu_item_base');
+        Schema::dropIfExists('base_menu_item');
     }
 }

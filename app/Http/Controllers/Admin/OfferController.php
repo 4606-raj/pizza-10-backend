@@ -48,7 +48,7 @@ class OfferController extends Controller
             'condition' => $validatedData['condition'],
             'condition_value' => $validatedData['condition_value'],
             'condition_type' => $validatedData['condition_type'],
-            'image' => $validatedData['image'],
+            'image' => $validatedData['image'] ?? null,
         ]);
 
         return redirect()->route('offers.index')->with('success', 'Offer created successfully!');
@@ -89,7 +89,7 @@ class OfferController extends Controller
             'condition' => $validatedData['condition'],
             'condition_value' => $validatedData['condition_value'],
             'condition_type' => $validatedData['condition_type'],
-            'image' => $validatedData['image'],
+            'image' => $validatedData['image'] ?? null,
         ]);
     
         return redirect()->route('offers.index')->with('success', 'Offer updated successfully!');

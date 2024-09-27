@@ -2,8 +2,8 @@
 
 return [
     'offer_condition_types' => [
-        'number of menu items',
         'amount',
+        'number of menu items',
     ],
     'offer_conditions' => [
         'equal to',

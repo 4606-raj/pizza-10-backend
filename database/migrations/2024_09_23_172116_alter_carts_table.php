@@ -16,6 +16,8 @@ return new class extends Migration
             $table->dropColumn('base_id');
             $table->renameColumn('quantity', 'total_quantity');
             $table->renameColumn('amount', 'total_amount');
+            $table->double('offer_deduction')->default(0);
+            $table->double('discounted_amount')->default(0);
         });
     }
 
