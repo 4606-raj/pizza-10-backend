@@ -90,6 +90,18 @@ class CartController extends Controller
         $cart = Cart::whereStatus(0)->whereUserId(Auth::user()->id)->first();
         $offer = Offer::find($offerId);
 
+        // $offerAvailableOnIds = $offer->menuItems()->withPivot('base_id')->get()->pluck('pivot.base_id', 'id')->toArray();
+        $cartMenuItemIds = $cart->menuItems()->withPivot('base_id')->get()->pluck('pivot.base_id', 'id')->toArray();
+        // dd($offerAvailableOnIds);
+
+        // // menu item condition
+        foreach ($cartMenuItemIds as $key => $value) {
+            $exists = $offer->menuItems()->whereMenuItemId($key)->wherePivot('base_id', $value)->exists();
+            if(!$exists) {
+                throw new \Exception("This offer is not applicable on selected pizzas");
+            }
+        }
+
         // Conditions
 
         $cartValue = $offer->condition_type == config('constants.offer_condition_types')[0]? $cart->total_amount: $cart->total_quantity;
@@ -131,6 +143,8 @@ class CartController extends Controller
             $cart->total_amount = $cart->total_amount - $offAmount;
             $cart->save();
         }
+        $cart->offer_id = $offer->id;
+        $cart->save();
 
         return $cart;
     }
@@ -141,17 +155,27 @@ class CartController extends Controller
         ]);
 
         try {
-            $cartItem = Cart::findOrFail($request->id);
+            $cart = Cart::whereUserId(Auth::user()->id)->first();
+            $cartItem = $cart->menuItems()->withPivot('quantity', 'amount', 'base_id')->get()->filter(function($menuItem) use ($request) {
+                return $menuItem->id == $request->id;
+            })[0];
 
-            if($cartItem->quantity > 1) {
-                $amount = MenuItemPrice::whereMenuItemId($cartItem->menu_item_id)->whereBaseId($cartItem->base_id)->first();
-                $cartItem->decrement('quantity');
-                $cartItem->amount = $amount->price * $cartItem->quantity;
-                $cartItem->save();
+            if($cartItem->pivot->quantity > 1) {
+                $amount = MenuItemPrice::whereMenuItemId($cartItem->id)->whereBaseId($cartItem->pivot->base_id)->first();
+                $cart->menuItems()->updateExistingPivot($request->id, ['quantity' => \DB::raw('quantity - 1')]);
+
+                $decreasedAmount = $amount->price * ($cartItem->pivot->quantity - 1);
+                $cart->menuItems()->updateExistingPivot($request->id, ['amount' => $decreasedAmount]);
+                
+                $cart->decrement('total_quantity');
+                $cart->total_amount = $cart->total_amount - $amount->price;
+                $cart->save();
             }
             else {
-                $cartItem->delete();
+                $cart->menuItems()->detach();
+                $cart->delete();
             }
+            
         }
         catch(\Exception $e) {
             return $this->error($e->getMessage());
