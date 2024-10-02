@@ -180,4 +180,21 @@ class CartController extends Controller
             return $this->error($e->getMessage());
         }
     }
+
+    public function applyOffer(Request $request) {
+        try {
+
+            $request->validate([
+                'code' => 'required|exists:offers,code'
+            ]);
+            
+            $offer = Offer::whereCode($request->code)->firstOrFail();
+            
+            $this->handleOffer($offer->id);
+            return $this->index();
+        }
+        catch(\Exception $e) {
+            return $this->error($e->getMessage());
+        }
+    }
 }

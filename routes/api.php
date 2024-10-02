@@ -40,6 +40,7 @@ Route::group(['middleware' => 'auth:api'], function() {
 
     Route::get('get-profile', [AuthController::class, 'getProfile']);
     Route::post('update-profile', [AuthController::class, 'updateProfile']);
+    Route::post('apply-offer', [CartController::class, 'applyOffer']);
 });
 
 
