@@ -90,13 +90,11 @@ class CartController extends Controller
         $cart = Cart::whereStatus(0)->whereUserId(Auth::user()->id)->first();
         $offer = Offer::find($offerId);
 
-        // $offerAvailableOnIds = $offer->menuItems()->withPivot('base_id')->get()->pluck('pivot.base_id', 'id')->toArray();
-        $cartMenuItemIds = $cart->menuItems()->withPivot('base_id')->get()->pluck('pivot.base_id', 'id')->toArray();
-        // dd($offerAvailableOnIds);
+        $cartMenuItemIds = $cart->menuItems()->withPivot('base_id')->get();
 
-        // // menu item condition
+        // menu item condition
         foreach ($cartMenuItemIds as $key => $value) {
-            $exists = $offer->menuItems()->whereMenuItemId($key)->wherePivot('base_id', $value)->exists();
+            $exists = $offer->menuItems()->whereMenuItemId($value->id)->wherePivot('base_id', $value->pivot->base_id)->exists();
             if(!$exists) {
                 throw new \Exception("This offer is not applicable on selected pizzas");
             }
@@ -218,7 +216,7 @@ class CartController extends Controller
             return $this->index();
         }
         catch(\Exception $e) {
-            return $this->error($e->getMessage());
+            return $this->error($e->getMessage(), 403);
         }
     }
 }
