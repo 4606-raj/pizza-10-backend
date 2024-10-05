@@ -39,6 +39,7 @@ class CartController extends Controller
         }
         
         $cartItem = $cart->menuItems()->wherePivot('menu_item_id', $request->menu_item_id)->wherePivot('base_id', $request->base_id)->withPivot('quantity')->first();
+
         
         if($cartItem) {
             $quantity = $cartItem->pivot->quantity + 1;
@@ -50,9 +51,11 @@ class CartController extends Controller
         else {
             $cart->menuItems()->attach($request->menu_item_id, ['base_id' => $request->base_id, 'amount' => $amount->price, 'quantity' => 1]);
 
-            $cart->total_amount = $amount->price;
+            $cart->total_amount = $cart->total_amount + $amount->price;
             $cart->total_quantity = ($cart->total_quantity ?? 0) + 1;
         }
+
+        $cart->discounted_amount = $cart->total_amount;
 
         $cart->save();
 
@@ -90,15 +93,16 @@ class CartController extends Controller
         $cart = Cart::whereStatus(0)->whereUserId(Auth::user()->id)->first();
         $offer = Offer::find($offerId);
 
-        $cartMenuItemIds = $cart->menuItems()->withPivot('base_id')->get();
+        $cartMenuItems = $cart->menuItems()->withPivot('base_id')->get();
+        // dd($cartMenuItems);
 
         // menu item condition
-        foreach ($cartMenuItemIds as $key => $value) {
-            $exists = $offer->menuItems()->whereMenuItemId($value->id)->wherePivot('base_id', $value->pivot->base_id)->exists();
-            if(!$exists) {
-                throw new \Exception("This offer is not applicable on selected pizzas");
-            }
-        }
+        // foreach ($cartMenuItemIds as $key => $value) {
+        //     $exists = $offer->menuItems()->whereMenuItemId($value->id)->wherePivot('base_id', $value->pivot->base_id)->exists();
+        //     if($exists) {
+        //         throw new \Exception("This offer is not applicable on selected pizzas");
+        //     }
+        // }
 
         // Conditions
 
@@ -122,27 +126,40 @@ class CartController extends Controller
             }
         }
         
-        // Flat Off
-        if($offer->offerType->name == 'Flat Off') {
-            $cart->offer_deduction = $offer->offer_value;
-            $cart->discounted_amount = $cart->total_amount - $offer->offer_value;
-            $cart->save();
-        }
+        foreach ($cartMenuItems as $key => $cartMenuItem) {
+            $exists = $offer->menuItems()->whereMenuItemId($cartMenuItem->id)->wherePivot('base_id', $cartMenuItem->pivot->base_id)->exists();
+            if($exists) {
+                
+                // Flat Off
+                if($offer->offerType->name == 'Flat Off') {
 
-        // Percent Off
-        if($offer->offerType->name == 'Percent Off') {
-            $offAmount = ($cart->total_amount / 100) * $offer->offer_value;
-            $cart->offer_deduction = $offAmount;
-            $cart->discounted_amount = $cart->total_amount - $offAmount;
-            $cart->save();
+                    $cart->menuItems()->updateExistingPivot($cartMenuItem->id, ['amount' => $offer->offer_value]);
+                    
+                    $cart->offer_deduction = $cart->offer_deduction + $offer->offer_value;
+                    $cart->discounted_amount = $cart->total_amount - $offer->offer_value;
+                    $cart->save();
+                }
+                
+                // Percent Off
+                if($offer->offerType->name == 'Percent Off') {
+
+                    $offAmount = ($cartMenuItem->pivot->amount / 100) * $offer->offer_value;
+
+                    $cart->menuItems()->wherePivot('base_id', $cartMenuItem->pivot->base_id)->updateExistingPivot($cartMenuItem->id, ['amount' => $cartMenuItem->pivot->amount - $offAmount]);
+                    
+                    $cart->offer_deduction = $cart->offer_deduction + $offAmount;
+                    $cart->discounted_amount = $cart->total_amount - $offAmount;
+                    $cart->save();
+                }
+                // Buy One Get One
+                if($offer->offerType->name == 'Buy One Get One') {
+                    $cart->total_amount = $cart->total_amount - $offAmount;
+                    $cart->save();
+                }
+                $cart->offer_id = $offer->id;
+                $cart->save();
+            }
         }
-        // Buy One Get One
-        if($offer->offerType->name == 'Buy One Get One') {
-            $cart->total_amount = $cart->total_amount - $offAmount;
-            $cart->save();
-        }
-        $cart->offer_id = $offer->id;
-        $cart->save();
 
         return $cart;
     }
