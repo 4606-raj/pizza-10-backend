@@ -144,6 +144,10 @@ class CartController extends Controller
                 if($offer->offerType->name == 'Percent Off') {
 
                     $offAmount = ($cartMenuItem->pivot->amount / 100) * $offer->offer_value;
+                    
+                    if($offAmount > $offer->upto) {
+                        $offAmount = $offer->upto;
+                    }
 
                     $cart->menuItems()->wherePivot('base_id', $cartMenuItem->pivot->base_id)->updateExistingPivot($cartMenuItem->id, ['amount' => $cartMenuItem->pivot->amount - $offAmount]);
                     

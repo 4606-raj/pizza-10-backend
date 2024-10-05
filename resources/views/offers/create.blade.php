@@ -113,6 +113,13 @@
                     </div>
                   </div>
                 </div>
+                <div class="form-group col-6 d-flex align-items-center">
+                  <label class="col-sm-3 col-form-label">Upto</label>
+                  <div class="col-sm-9">
+                    <input type="number" class="form-control" name="upto" placeholder="Upto" disabled>
+                  </div>
+                </div>
+                
                 <hr>
               </fieldset>
               
@@ -128,3 +135,13 @@
 </div>
 
 @endsection
+
+@push('script')
+    <script>
+      $('select[name="offer_type_id"]').change(function() {
+        if($(this).val() == 2) {
+          $('input[name="upto"]').attr('disabled', false);
+        }
+      })
+    </script>
+@endpush

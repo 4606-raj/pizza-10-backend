@@ -32,6 +32,7 @@ class OfferController extends Controller
             'condition_value' => 'required|numeric',
             'condition_type' => 'required|string',
             'image' => 'nullable|file:mime_type:jpeg,jpg,png',
+            'upto' => 'nullable',
         ]);
 
         if($request->hasFile('image')) {
@@ -49,6 +50,7 @@ class OfferController extends Controller
             'condition_value' => $validatedData['condition_value'],
             'condition_type' => $validatedData['condition_type'],
             'image' => $validatedData['image'] ?? null,
+            'upto' => $validatedData['upto'] ?? null,
         ]);
 
         return redirect()->route('offers.index')->with('success', 'Offer created successfully!');
@@ -73,6 +75,7 @@ class OfferController extends Controller
             'condition_value' => 'required|numeric',
             'condition_type' => 'required|string',
             'image' => 'nullable|file:mime_type:jpeg,jpg,png',
+            'upto' => 'nullable',
         ]);
 
         if($request->hasFile('image')) {
@@ -90,6 +93,7 @@ class OfferController extends Controller
             'condition_value' => $validatedData['condition_value'],
             'condition_type' => $validatedData['condition_type'],
             'image' => $validatedData['image'] ?? null,
+            'upto' => $validatedData['upto'] ?? null,
         ]);
     
         return redirect()->route('offers.index')->with('success', 'Offer updated successfully!');

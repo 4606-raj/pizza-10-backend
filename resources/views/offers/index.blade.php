@@ -21,6 +21,7 @@
                     <th>Condition</th>
                     <th>Condition Value</th>
                     <th>Code</th>
+                    <th>Upto</th>
                     <th>Image</th>
                     <th>Action</th>
                   </tr>
@@ -35,6 +36,7 @@
                       <td>{{ $value->condition ?? '--' }}</td>
                       <td>{{ $value->condition_value ?? '--' }}</td>
                       <td>{{ $value->code ?? '--' }}</td>
+                      <td>{{ $value->upto ?? '--' }}</td>
                       <td><img src="{{ $value->image }}" alt="" class="img-thumbnail"></td>
                         <td>
                             <a href="{{ route('offers.edit', $value->id) }}" class="btn btn-primary"><i class="mdi mdi-pencil"></i></a>
