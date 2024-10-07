@@ -38,6 +38,7 @@ class OrderController extends Controller
         $data['payment_mode'] = $request->payment_mode;
         $data['user_id'] = $userId;
         $data['total_amount'] = $totalAmount;
+        $data['status'] = 0;
         
         if(!is_null($request->order_type)) {
             $data['order_type'] = $request->order_type;
@@ -46,7 +47,7 @@ class OrderController extends Controller
         $order = Order::create($data);
 
         if($request->payment_mode == 'cod') {
-            $order->update(['status' => 2, 'payment_response' => $request->payment_response]);
+            $order->update(['status' => 1, 'payment_response' => $request->payment_response]);
 
             // need to remove cart items after moving into orders table.
             $cart = Cart::whereUserId($userId)->get();
@@ -124,8 +125,8 @@ class OrderController extends Controller
 
         if($request->payment_status) {
             $order = Order::findOrFail($request->order_id);
-            $order->update(['status' => 2, 'payment_response' => $request->payment_response]);
-            // $order->first()->cartItems()->update(['status' => 2]);
+            $order->update(['status' => 1, 'payment_response' => $request->payment_response]);
+            // $order->first()->cartItems()->update(['status' => 1]);
 
             // need to remove cart items after moving into orders table.
             $cart = Cart::whereUserId($userId)->get();

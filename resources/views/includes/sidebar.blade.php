@@ -37,6 +37,14 @@
         </a>
       </li>
       @if (Auth::guard('staff')->user()->role == 1)
+
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('menu-categories.index') }}">
+          <i class="mdi mdi-plus-circle-multiple-outline menu-icon"></i>
+          <span class="menu-title">Menu Categories</span>
+        </a>
+      </li>
+      
         <li class="nav-item">
           <a class="nav-link" href="{{ route('menu-items.index') }}">
             <i class="mdi mdi-pizza menu-icon"></i>

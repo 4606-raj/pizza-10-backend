@@ -2,6 +2,18 @@
 
 @section('content')
     
+@php
+  $statuses = [1 => 'Recieved', 2 => 'Confirmed', 3 => 'Preparing', 4 => 'Prepared', 5 => 'Picked Up', 6 => 'Delivered'];
+@endphp
+
+{{-- @push('style')
+  <style>
+    .order-time-edit {
+      cursor: pointer;
+    }
+  </style>
+@endpush --}}
+
 <div class="content-wrapper pb-0">
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
@@ -87,7 +99,28 @@
                           <div class="d-flex">
                             <a href="{{ route('orders.show', $order->id) }}" class="btn btn-primary mr-4"><i class="mdi mdi-eye"></i></a>
                             
-                            <div class="dropdown" style="position: inherit">
+                            @if ($order->status == 1) 
+
+                              {{-- <div class="col-sm-4 mr-4 d-flex order-time-text justify-content-center align-items-center">
+                                <span>30 Mins</span>
+                                <i class="ml-4 mdi mdi-pencil order-time-edit"></i>
+                              </div>
+                               --}}
+                              <div class="col-sm-4 mr-4 order-time-box d-flex">
+                                <input type="number" class="form-control order-time-hours" value="0" name="order_time" placeholder="Hours">
+                                <input type="number" class="form-control order-time-minutes" value="30" name="order_time" placeholder="Minutes">
+                              </div>
+                            @endif
+                            
+                            @if (isset($statuses[$order->status - 1]))
+                              <button class="btn btn-warning status-btn mr-4" data-status="{{ $order->status - 1 }}" data-id="{{ $order->id }}">{{ $statuses[$order->status - 1] }}</button>
+                            @endif
+                            @if (isset($statuses[$order->status + 1]))
+                              <button class="btn btn-success status-btn" data-status="{{ $order->status + 1}}" data-id="{{ $order->id }}">{{ $statuses[$order->status + 1] }}</button>
+                            @endif
+
+                            
+                            {{-- <div class="dropdown" style="position: inherit">
                               <button type="button" class="btn btn-primary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="mdi mdi-dots-vertical"></i>
                               </button>
@@ -99,7 +132,7 @@
                                 <div class="dropdown-divider"></div>
                                 <li class="dropdown-item" data-status="6" data-id="{{ $order->id }}">Delivered</li>
                               </div>
-                            </div>
+                            </div> --}}
                           </div>
                           
                             {{-- <a href="{{ route('orders.edit', $order->id) }}" class="btn btn-primary"><i class="mdi mdi-dots-vertical"></i></a> --}}
@@ -124,14 +157,24 @@
 
 @push('script')
     <script>
-      $('.dropdown-item').click(function() {
+      $('.status-btn').click(function() {
         let status = $(this).data('status');
         let orderId = $(this).data('id');
         let url = `{{ route('orders.update', ':id') }}`.replace(':id', orderId);
 
+        let orderHours = $('.order-time-hours').val();
+        let orderMinutes = $('.order-time-minutes').val();
+        
+        order_time = null;
+        
+        if(orderHours !== undefined && orderMinutes !== undefined) {
+          order_time = +(orderHours * 60) + +orderMinutes;
+        }
+
         let data = {
           _token: "{{ csrf_token() }}",
           status: status,
+          order_time: order_time,
         }
 
         $.ajax({
@@ -144,5 +187,11 @@
           }
         })
       })
+
+      // $('.order-time-edit').click(function() {
+      //   $('.order-time-text').hide();
+      //   $('.order-time-box').show();
+      // })
+      
     </script>
 @endpush

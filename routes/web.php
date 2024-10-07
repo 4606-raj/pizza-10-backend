@@ -11,10 +11,12 @@ Route::group(['middleware' => 'admin', 'namespace' => 'App\Http\Controllers\Admi
     Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
     Route::resource('users', UserController::class);
+    Route::get('users-export', [App\Http\Controllers\Admin\UserController::class, 'export']);
     Route::resource('orders', OrderController::class);
     Route::resource('menu-items', MenuItemController::class);
     Route::resource('offers', OfferController::class);
     Route::resource('staff', StaffController::class);
+    Route::resource('menu-categories', CategoryController::class);
     Route::get('/offers/settings/{offerId}', [OfferController::class, 'settingsPage'])->name('offers.settings.create');
     Route::post('/offers/settings', [OfferController::class, 'settingsStore'])->name('offers.settings.store');
     Route::get('/offers/settings/remove-menu-item/{offerId}/{menuItemId}/{baseId}', [OfferController::class, 'settingsRemoveMenuItem'])->name('offers.settings.remove-menu-items');

@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\UsersExport;
 use Str, Hash;
 
 class UserController extends Controller
@@ -63,4 +65,10 @@ class UserController extends Controller
         User::destroy($id);
         return redirect()->route('users.index');
     }
+
+    public function export() 
+    {
+        return Excel::download(new UsersExport, 'users.xlsx');
+    }
+
 }

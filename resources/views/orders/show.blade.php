@@ -2,6 +2,10 @@
 
 @section('content')
     
+@php
+  $statuses = [1 => 'Recieved', 2 => 'Confirmed', 3 => 'Preparing', 4 => 'Prepared', 5 => 'Picked Up', 6 => 'Delivered'];
+@endphp
+
 <div class="content-wrapper pb-0 row">
     <div class="col-lg-8 grid-margin stretch-card">
       <div class="card">
@@ -9,7 +13,14 @@
           <div class="card-title d-flex justify-content-between">
             <h4>Order Details</h4>
 
-            <div class="dropdown" style="position: inherit">
+            @if (isset($statuses[$order->status - 1]))
+              <button class="btn btn-warning status-btn" data-status="{{ $order->status - 1 }}" data-id="{{ $order->id }}">{{ $statuses[$order->status - 1] }}</button>
+            @endif
+            @if (isset($statuses[$order->status + 1]))
+              <button class="btn btn-success status-btn" data-status="{{ $order->status + 1}}" data-id="{{ $order->id }}">{{ $statuses[$order->status + 1] }}</button>
+            @endif
+            
+            {{-- <div class="dropdown" style="position: inherit">
               <button type="button" class="btn btn-primary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="mdi mdi-pencil"></i>
                 Change Status
@@ -22,7 +33,7 @@
                 <div class="dropdown-divider"></div>
                 <li class="dropdown-item" data-status="6" data-id="{{ $order->id }}">Delivered</li>
               </div>
-            </div>
+            </div> --}}
             
           </div>
           <div class="table-responsive">
@@ -74,12 +85,12 @@
                   <th>Customer Address</th>
                   <td style="line-height: normal;">
                     <address>
-                      {{ $order->address->house_no }},
-                      {{ $order->address->steet_landmark }},
-                      {{ $order->address->sector_village }},<br>
-                      {{ $order->address->city }},
-                      {{ $order->address->state }},<br>
-                      {{ $order->address->details }}
+                      {{ $order->address->house_no ?? '--' }},
+                      {{ $order->address->steet_landmark ?? '--' }},
+                      {{ $order->address->sector_village ?? '--' }},<br>
+                      {{ $order->address->city ?? '--' }},
+                      {{ $order->address->state ?? '--' }},<br>
+                      {{ $order->address->details ?? '--' }}
                     </address>
                   </td>
                 </tr>
@@ -94,7 +105,7 @@
 
 @push('script')
     <script>
-      $('.dropdown-item').click(function() {
+      $('.status-btn').click(function() {
         let status = $(this).data('status');
         let orderId = $(this).data('id');
         let url = `{{ route('orders.update', ':id') }}`.replace(':id', orderId);

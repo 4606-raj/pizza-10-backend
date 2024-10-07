@@ -32,6 +32,10 @@ class OrderController extends Controller
 
         Order::whereId($id)->update(['status' => $request->status]);
 
+        if(!is_null($request->order_time)) {
+            Order::whereId($id)->update(['order_duration' => $request->order_time]);
+        }
+
         return Response::json(['status' => true]);
     }
 

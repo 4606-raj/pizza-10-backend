@@ -29,7 +29,7 @@ class Order extends Model
 
     public function getStatusBadgeAttribute() {
         $statuses = [
-            '<span class="badge badge-danger">New</span>',
+            '<span class="badge badge-danger">Confirmed</span>',
             '<span class="badge badge-warning">Preparing</span>',
             '<span class="badge badge-info">Prepared</span>',
             '<span class="badge badge-primary">Picked Up</span>',
