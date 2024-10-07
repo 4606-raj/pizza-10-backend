@@ -11,7 +11,7 @@ Route::group(['middleware' => 'admin', 'namespace' => 'App\Http\Controllers\Admi
     Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
     Route::resource('users', UserController::class);
-    Route::get('users-export', [App\Http\Controllers\Admin\UserController::class, 'export']);
+    Route::get('users-export', [App\Http\Controllers\Admin\UserController::class, 'export'])->name('users.export');
     Route::resource('orders', OrderController::class);
     Route::resource('menu-items', MenuItemController::class);
     Route::resource('offers', OfferController::class);

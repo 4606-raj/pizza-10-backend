@@ -8,7 +8,7 @@
           <div class="card-body">
             <div class="card-title d-flex justify-content-between">
               <h4>Users</h4>
-              {{-- <a href="{{ route('users.create') }}" class="btn btn-success">Add New</a> --}}
+              <a href="{{ route('users.export') }}" class="btn btn-success">Export</a>
             </div>
             <div class="table-responsive">
               <table class="table table-hover">
