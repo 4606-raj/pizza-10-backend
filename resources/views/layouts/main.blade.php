@@ -52,7 +52,7 @@
     
     @stack('style')
     
-    @livewireStyles
+    {{-- @livewireStyles --}}
   </head>
   <body>
 
