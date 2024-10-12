@@ -22,22 +22,25 @@ class OrderController extends Controller
         ]);
 
         $userId = Auth::user()->id;
-        $cart = Cart::whereUserId($userId)->get();
+        $cart = Cart::whereUserId($userId)->first();
 
-        if(!count($cart)) {
+        if(is_null($cart)) {
             return $this->error('Your cart is emtpy', 403); 
         }
 
-        $totalAmount = 0;
+        // $totalAmount = 0;
         
-        foreach ($cart as $key => $value) {
-            $totalAmount += $value->amount;
-        }
+        // foreach ($cart as $key => $value) {
+        //     $totalAmount += $value->amount;
+        // }
 
         $data['address_id'] = $request->address_id;
         $data['payment_mode'] = $request->payment_mode;
         $data['user_id'] = $userId;
-        $data['total_amount'] = $totalAmount;
+        $data['total_amount'] = $cart->total_amount;
+        $data['total_quantity'] = $cart->total_quantity;
+        $data['discounted_amount'] = $cart->discounted_amount;
+        $data['offer_deduction'] = $cart->offer_deduction;
         $data['status'] = 0;
         
         if(!is_null($request->order_type)) {
@@ -50,13 +53,17 @@ class OrderController extends Controller
             $order->update(['status' => 1, 'payment_response' => $request->payment_response]);
 
             // need to remove cart items after moving into orders table.
-            $cart = Cart::whereUserId($userId)->get();
-            foreach ($cart as $key => $value) {   
+            // $cart = Cart::whereUserId($userId)->get();
+
+
+            // dd($cart->menuItems);
+            foreach ($cart->menuItems as $key => $value) {   
                 OrderMenuItem::create([
                     'order_id' => $order->id,
-                    'menu_item_id' => $value->menu_item_id,
-                    'menu_item_price_id' => $value->menuItemPrice->id,
-                    'quantity' => $value->quantity,
+                    'menu_item_id' => $value->id,
+                    'base_id' => $value->pivot->base_id,
+                    'quantity' => $value->pivot->quantity,
+                    'amount' => $value->pivot->amount,
                 ]);
             }
 

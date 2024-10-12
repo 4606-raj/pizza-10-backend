@@ -41,7 +41,7 @@
                 <div class="col-sm-9">
                   <select class="form-control" name="menu_category_id">
                     @foreach ($menuCategories as $menuCategory)
-                      <option value="{{ $menuCategory->id }}">{{ $menuCategory->name }}</option>
+                      <option value="{{ $menuCategory->id }}" {{ request()->menu_categoy_id && request()->menu_categoy_id == $menuCategory->id? 'selected': '' }}>{{ $menuCategory->name }}</option>
                     @endforeach
                   </select>
                 </div>

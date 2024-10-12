@@ -22,7 +22,7 @@
               <h4>Orders</h4>
               {{-- <a href="{{ route('users.create') }}" class="btn btn-success">Add New</a> --}}
 
-              <div class="col-8">
+              <div class="col-6">
                 <form class="form-inline d-flex justify-content-between" action="{{ route('orders.index') }}" method="GET">
 
                   <div class="col-3">
@@ -52,6 +52,11 @@
                   </div>
                   
                 </form>
+              </div>
+              <div class="col-4">
+                <div class="col-12 text-right">
+                  <a href="{{ route('orders.create') }}" class="btn btn-success">Create</a>
+                </div>
               </div>
               
             </div>
