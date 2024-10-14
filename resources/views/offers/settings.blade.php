@@ -56,7 +56,7 @@
         </div>
       </div>
 
-      <div class="col-md-12 grid-margin stretch-card">
+      <div class="col-md-6 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
             <h4 class="card-title">Apply Offer On All Menu Items Of Base</h4>
@@ -74,6 +74,38 @@
                     <option value="" disabled>Select Bases</option>
                     @foreach ($bases ?? [] as $base)
                       <option value="{{ $base->id }}">{{ $base->name }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+      
+              <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary me-2">Add</button>
+                <a href="{{ route('offers.index') }}" class="btn btn-light">Cancel</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Apply Offer On All Menu Items Of Category</h4>
+            @if($errors->any())
+                {!! implode('', $errors->all('<div class="alert alert-danger">:message</div>')) !!}
+            @endif
+      
+            <form class="forms-sample" action="{{ route('offers.settings.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="offer_id" value="{{ $offer->id }}">
+              <div class="form-group col-12 d-flex align-items-center">
+                <label class="col-sm-3 col-form-label">Category</label>
+                <div class="col-sm-9">
+                  <select class="form-control" name="menu_categary_id">
+                    <option value="" disabled>Select Category</option>
+                    @foreach ($menuCategories ?? [] as $catagory)
+                      <option value="{{ $catagory->id }}">{{ $catagory->name }}</option>
                     @endforeach
                   </select>
                 </div>

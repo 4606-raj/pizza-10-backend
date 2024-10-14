@@ -61,7 +61,15 @@ class MenuItemController extends Controller
             'description' => 'required',
             'menu_category_id' => 'required|integer',
             'is_veg' => 'required|boolean',
-            'prices.*' => 'required|numeric',
+            'prices.*' => 
+                            function ($attribute, $value, $fail) {
+                                $prices = request()->input('prices');
+                                if (count(array_filter($prices)) > 0) {
+                                    return true;
+                                }
+                                $fail('At least one price is required');
+                            },
+                            'numeric',
         ]);
 
         $menuItem = new MenuItem();

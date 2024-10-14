@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-Use App\Models\{Offer, OfferType, OfferCategory, MenuItem, Base};
+Use App\Models\{Offer, OfferType, OfferCategory, MenuItem, Base, MenuCategory};
 
 class OfferController extends Controller
 {
@@ -103,10 +103,11 @@ class OfferController extends Controller
         $offer = Offer::findOrFail($offerId);
         $menuItems = MenuItem::all();
         $bases = Base::all();
+        $menuCategories = MenuCategory::all();
 
         $offerMenuItems = $offer->MenuItems()->withPivot('base_id')->paginate(10);
 
-        return view('offers.settings', compact('offer', 'menuItems', 'bases', 'offerMenuItems'));
+        return view('offers.settings', compact('offer', 'menuItems', 'bases', 'offerMenuItems', 'menuCategories'));
     }
 
     public function settingsStore(Request $request) {
@@ -123,6 +124,23 @@ class OfferController extends Controller
                         $existingPivot = $offer->menuItems()->wherePivot('menu_item_id', $menuItem->id)->wherePivot('base_id', $baseId)->first();
                         if (!$existingPivot) {
                             $offer->menuItems()->attach($menuItem->id, ['base_id' => $baseId]);
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($request->has('menu_categary_id') && !empty($request->menu_categary_id)) {
+            $menuCategory = MenuCategory::find($request->menu_categary_id);
+    
+            if ($menuCategory) {
+                $menuItems = $menuCategory->menuItems()->with('bases')->get();
+
+                foreach ($menuItems as $menuItem) {
+                    foreach ($menuItem->bases as $base) {
+                        $existingPivot = $offer->menuItems()->wherePivot('menu_item_id', $menuItem->id)->wherePivot('base_id', $base->id)->first();
+                        if (!$existingPivot) {
+                            $offer->menuItems()->attach($menuItem->id, ['base_id' => $base->id]);
                         }
                     }
                 }
