@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\MenuCategory;
+use App\Models\{MenuCategory, MenuSubcategory};
 
 class CategoryController extends Controller
 {
@@ -96,4 +96,47 @@ class CategoryController extends Controller
         MenuCategory::find($id)->delete();
         return redirect()->route('menu-categories.index')->with('success', 'Category deleted successfully!');
     }
+
+    public function subcateogriesIndex($categoryId) {
+        $data = MenuSubcategory::whereMenuCategoryId($categoryId)->paginate(10);
+        return view('categories.subcategories-index', compact('data', 'categoryId'));
+    }
+
+    public function subcateogriesCreate($categoryId) {
+        $data = Menucategory::all();
+        return view('categories.subcategories-create', compact('data', 'categoryId'));
+    }
+
+    public function subcateogriesStore(Request $request) {
+        $request->validate([
+            'menu_category_id' => 'required',
+            'name' => 'required',
+        ]);
+
+        MenuSubcategory::create($request->only('menu_category_id', 'name'));
+        return redirect()->route('menu-items.subcateogries', $request->menu_category_id);
+    }
+
+    public function subcateogriesEdit($id) {
+        $categories = Menucategory::all();
+        $subcategory = MenuSubcategory::find($id);
+        return view('categories.subcategories-edit', compact('subcategory', 'categories'));
+    }
+
+    public function subcateogriesUpdate(Request $request, $id) {
+        $request->validate([
+            'menu_category_id' => 'required',
+            'name' => 'required',
+        ]);
+
+        MenuSubcategory::whereId($id)->update($request->only('menu_category_id', 'name'));
+        return redirect()->route('menu-items.subcateogries', $request->menu_category_id);
+    }
+
+    public function subcateogriesDestroy(string $id)
+    {
+        MenuSubcategory::find($id)->delete();
+        return redirect()->route('menu-subcategories.index')->with('success', 'Subcategory deleted successfully!');
+    }
+    
 }

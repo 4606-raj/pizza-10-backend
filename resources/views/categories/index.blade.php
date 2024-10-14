@@ -16,6 +16,7 @@
                   <tr>
                     <th>Name</th>
                     <th>Image</th>
+                    <th>Total Subcateogries</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -24,9 +25,10 @@
                     <tr>
                         <td>{{ $value->name ?? '--' }}</td>
                         <td><img src="{{ $value->image }}" alt="Menu Item Image" class="img-thumbnail"></td>
+                        <td>{{ $value->subcategories->count() }}</td>
                         <td>
-                            <a href="{{ route('menu-items.create', ['menu_categoy_id'
-                            => $value->id]) }}" class="btn btn-info"><i class="mdi mdi-plus"></i></a>
+                            <a href="{{ route('menu-items.create', ['menu_categoy_id' => $value->id]) }}" class="btn btn-info"><i class="mdi mdi-plus"></i></a>
+                            <a href="{{ route('menu-items.subcateogries', ['categoryId' => $value->id]) }}" class="btn btn-success">Subcateogries</a>
                             <a href="{{ route('menu-categories.edit', $value->id) }}" class="btn btn-primary"><i class="mdi mdi-pencil"></i></a>
                             <a href="{{ route('menu-categories.destroy', $value->id) }}" class="btn btn-danger delete-btn"><i class="mdi mdi-trash-can"></i></a>
                         </td>

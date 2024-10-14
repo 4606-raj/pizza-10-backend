@@ -22,4 +22,8 @@ class MenuCategory extends Model
         }
         return asset('storage/images/default.jpg');
     }
+
+    public function subcategories() {
+        return $this->hasMany(MenuSubcategory::class);
+    }
 }
