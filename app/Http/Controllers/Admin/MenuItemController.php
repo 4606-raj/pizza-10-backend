@@ -81,7 +81,10 @@ class MenuItemController extends Controller
         $menuItem->is_veg = $request->input('is_veg');
         $menuItem->save();
 
-        foreach ($request->prices as $baseId => $price) {
+        $prices = array_filter($request->prices);
+        
+        foreach ($prices as $baseId => $price) {
+            // dd($prices);
             $menuItem->prices()->create([
                 'base_id' => $baseId,
                 'menu_item_id' => $menuItem->id,
