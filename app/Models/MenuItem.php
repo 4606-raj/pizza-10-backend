@@ -43,6 +43,10 @@ class MenuItem extends Model
         return $this->belongsTo(MenuCategory::class, 'menu_category_id');
     }
 
+    public function subcategory() {
+        return $this->belongsTo(MenuSubcategory::class, 'menu_subcategory_id');
+    }
+
     public function getImageAttribute($val) : string {
         if(!is_null($val)) {
             return asset('storage/images/menu-items/' . $val);

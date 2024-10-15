@@ -41,10 +41,21 @@
               <div class="form-group row">
                 <label class="col-sm-3 col-form-label">Menu Category</label>
                 <div class="col-sm-9">
-                  <select class="form-control" name="menu_category_id">
+                  <select class="form-control categories" name="menu_category_id">
                     @foreach ($menuCategories as $menuCategory)
                       <option value="{{ $menuCategory->id }}" {{ $menuItem->category->id == $menuCategory->id? 'selected': '' }}>{{ $menuCategory->name }}</option>
                     @endforeach
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Menu Subcategory</label>
+                <div class="col-sm-9">
+                  <select class="form-control subcategories" name="menu_subcategory_id">
+                    {{-- @foreach ($menuSubcategories as $menuSubcategory) --}}
+                      <option value="{{ $menuItem->subcategory->id }}" selected>{{ $menuItem->subcategory->name }}</option>
+                    {{-- @endforeach --}}
                   </select>
                 </div>
               </div>
@@ -86,3 +97,26 @@
 </div>
 
 @endsection
+
+@push('script')
+    <script>
+      $('.categories').change(function() {
+        let id = $(this).val();
+        let subcategories = @json($menuSubcategories);
+        let subcategorId = @json($menuItem->subcategory->id);
+
+        let options = '<option value="">Select Category</option>';
+        
+        subcategories.forEach((value, index) => {
+          if(value.menu_category_id == id) {
+            options += `<option value=${value.id} ${subcategorId == value.id? 'selected': ''}>${value.name}</option>`;
+          }
+        })
+
+        $('.subcategories').html(options);
+
+      })
+
+      $('.categories').trigger('change');
+    </script>
+@endpush

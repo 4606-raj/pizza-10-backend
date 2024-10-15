@@ -13,7 +13,7 @@ class OrderMenuItem extends Model
     protected $hidden = ['created_at', 'updated_at'];
 
     public function price() {
-        return $this->belongsTo(MenuItemPrice::class, 'menu_item_price_id');
+        return $this->belongsTo(MenuItemPrice::class, 'menu_item_id');
     }
 
     public function menuItem() {

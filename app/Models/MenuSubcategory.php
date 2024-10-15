@@ -10,4 +10,9 @@ class MenuSubcategory extends Model
     use HasFactory;
 
     protected $guarded = [];
+    protected $hidden = ['created_at', 'updated_at'];
+
+    public function menuItems() {
+        return $this->hasMany(MenuItem::class);
+    }
 }

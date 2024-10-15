@@ -11,6 +11,7 @@ use App\Models\OfferCategory;
 use App\Models\Address;
 use App\Models\ToppingCategory;
 use App\Models\OfferType;
+use App\Models\MenuSubcategory;
 use Auth;
 
 class HomeController extends Controller
@@ -66,7 +67,20 @@ class HomeController extends Controller
         // end of temporary code
         
         $data = $data->get();
-        return $this->success($data);
+
+        $groupedData = MenuSubcategory::query();
+        
+        if(request()->has('menu_category_id') && !empty(request()->menu_category_id)) {
+            $groupedData = $groupedData->whereMenuCategoryId(request()->menu_category_id);
+        }
+        
+        $groupedData = $groupedData->withCount('menuItems')->with(['menuItems'])->get();
+        
+        if(!count(array_filter($groupedData->pluck('menu_items_count')->toArray()))) {
+            $groupedData = MenuCategory::whereId(request()->menu_category_id)->with(['menuItems'])->get();
+        }
+        
+        return $this->success($groupedData);
     }
 
     public function show($id) : JsonResponse {

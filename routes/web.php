@@ -21,8 +21,9 @@ Route::group(['middleware' => 'admin', 'namespace' => 'App\Http\Controllers\Admi
     Route::get('menu-items-subcateogries-create/{categoryId}', [App\Http\Controllers\Admin\CategoryController::class, 'subcateogriesCreate'])->name('menu-subcategories.create');
     Route::post('menu-items-subcateogries-store', [App\Http\Controllers\Admin\CategoryController::class, 'subcateogriesStore'])->name('menu-subcategories.store');
     Route::get('menu-items-subcateogries-edit/{categoryId}', [App\Http\Controllers\Admin\CategoryController::class, 'subcateogriesEdit'])->name('menu-subcategories.edit');
-    Route::PUT('menu-items-subcateogries-update/{categoryId}', [App\Http\Controllers\Admin\CategoryController::class, 'subcateogriesUpdate'])->name('menu-subcategories.update');
+    Route::put('menu-items-subcateogries-update/{categoryId}', [App\Http\Controllers\Admin\CategoryController::class, 'subcateogriesUpdate'])->name('menu-subcategories.update');
     Route::delete('menu-items-subcateogries-delete/{categoryId}', [App\Http\Controllers\Admin\CategoryController::class, 'subcateogriesDestroy'])->name('menu-subcategories.destroy');
+    Route::put('menu-items-category-attach', [App\Http\Controllers\Admin\MenuItemController::class, 'menuItemsCategoryAttach'])->name('menu-items.category-attach');
 
     Route::get('/offers/settings/{offerId}', [OfferController::class, 'settingsPage'])->name('offers.settings.create');
     Route::post('/offers/settings', [OfferController::class, 'settingsStore'])->name('offers.settings.store');

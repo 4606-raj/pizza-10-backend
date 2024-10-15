@@ -32,6 +32,10 @@
                   <td>{{ $menuItem->category->name ?? '--' }}</td>
                 </tr>
                 <tr>
+                  <th>Menu Subcategory:</th>
+                  <td>{{ $menuItem->subcategory->name ?? '--' }}</td>
+                </tr>
+                <tr>
                   <th>Is Veg:</th>
                   <td>{{ $menuItem->is_veg ? 'Yes' : 'No' }}</td>
                 </tr>

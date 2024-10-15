@@ -3,7 +3,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\{MenuItem, MenuCategory, Base};
+use App\Models\{MenuItem, MenuCategory, Base, MenuSubcategory};
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -43,8 +43,10 @@ class MenuItemController extends Controller
     public function create()
     {
         $menuCategories = MenuCategory::all();
+        $menuSubcategories = MenuSubcategory::all();
+        $menuItems = MenuItem::all();
         $bases = Base::all();
-        return view('menu_items.create', compact('menuCategories', 'bases'));
+        return view('menu_items.create', compact('menuCategories', 'bases', 'menuSubcategories', 'menuItems'));
     }
 
     /**
@@ -60,6 +62,7 @@ class MenuItemController extends Controller
             'image' => 'required|image',
             'description' => 'required',
             'menu_category_id' => 'required|integer',
+            'menu_subcategory_id' => 'required|integer',
             'is_veg' => 'required|boolean',
             'prices.*' => 
                             function ($attribute, $value, $fail) {
@@ -78,6 +81,7 @@ class MenuItemController extends Controller
 
         $menuItem->description = $request->input('description');
         $menuItem->menu_category_id = $request->input('menu_category_id');
+        $menuItem->menu_subcategory_id = $request->input('menu_subcategory_id');
         $menuItem->is_veg = $request->input('is_veg');
         $menuItem->save();
 
@@ -117,8 +121,9 @@ class MenuItemController extends Controller
     {
         $menuItem = MenuItem::find($id);
         $menuCategories = MenuCategory::all();
+        $menuSubcategories = MenuSubcategory::all();
         $bases = Base::all();
-        return view('menu_items.edit', compact('menuItem', 'menuCategories', 'bases'));
+        return view('menu_items.edit', compact('menuItem', 'menuCategories', 'bases', 'menuSubcategories'));
     }
 
     /**
@@ -134,6 +139,7 @@ class MenuItemController extends Controller
             'name' => 'required',
             'description' => 'required',
             'menu_category_id' => 'required|integer',
+            'menu_subcategory_id' => 'required|integer',
             'is_veg' => 'required|boolean',
         ]);
 
@@ -144,6 +150,7 @@ class MenuItemController extends Controller
         }
         $menuItem->description = $request->input('description');
         $menuItem->menu_category_id = $request->input('menu_category_id');
+        $menuItem->menu_subcategory_id = $request->input('menu_subcategory_id');
         $menuItem->is_veg = $request->input('is_veg');
         $menuItem->save();
 
@@ -171,5 +178,24 @@ class MenuItemController extends Controller
         $menuItem->delete();
 
         return redirect()->route('menu-items.index')->with('success', 'Menu item deleted successfully!');
+    }
+
+    public function menuItemsCategoryAttach(Request $request) {
+        $request->validate([
+            'menu_category_id' => 'required',
+            'menu_subcategory_id' => 'required',
+            'menu_item_ids.*' => 'required',
+        ]);
+
+        $menuItems = MenuItem::find($request->menu_item_ids);
+
+        foreach ($menuItems as $key => $value) {
+            $value->update([
+                'menu_category_id' => $request->menu_category_id,
+                'menu_subcategory_id' => $request->menu_subcategory_id,
+            ]);
+        }
+
+        return redirect()->route('menu-items.index');
     }
 }
