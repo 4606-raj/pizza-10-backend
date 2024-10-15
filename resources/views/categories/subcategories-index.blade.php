@@ -23,7 +23,7 @@
                     <tr>
                         <td>{{ $value->name ?? '--' }}</td>
                         <td>
-                            {{-- <a href="{{ route('menu-items.subcateogries', ['categoryId' => $value->id]) }}" class="btn btn-info">subcateogries</a> --}}
+                            <a href="{{ route('menu-items.create', ['menu_category_id' => $categoryId, 'menu_subcategory_id' => $value->id]) }}" class="btn btn-info"><i class="mdi mdi-plus"></i></a>
                             <a href="{{ route('menu-subcategories.edit', $value->id) }}" class="btn btn-primary"><i class="mdi mdi-pencil"></i></a>
                             <a href="{{ route('menu-subcategories.destroy', $value->id) }}" class="btn btn-danger delete-btn"><i class="mdi mdi-trash-can"></i></a>
                         </td>

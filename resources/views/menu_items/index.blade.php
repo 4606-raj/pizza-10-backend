@@ -51,6 +51,7 @@
                     <th>Image</th>
                     <th>Description</th>
                     <th>Menu Category</th>
+                    <th>Menu Subcategory</th>
                     <th>Is Veg</th>
                     <th>Actions</th>
                   </tr>
@@ -64,6 +65,7 @@
                         </td>
                         <td>{{ $menu_item->description }}</td>
                         <td>{{ $menu_item->category->name ?? '--' }}</td>
+                        <td>{{ $menu_item->subcategory->name ?? '--' }}</td>
                         <td>{{ $menu_item->is_veg ? 'Yes' : 'No' }}</td>
                         <td>
                             <a href="{{ route('menu-items.show', $menu_item->id) }}" class="btn btn-success"><i class="mdi mdi-eye"></i></a>

@@ -42,7 +42,7 @@
                   <select class="form-control categories" name="menu_category_id">
                     <option value="">Select Category</option>
                     @foreach ($menuCategories as $menuCategory)
-                      <option value="{{ $menuCategory->id }}" {{ request()->menu_categoy_id && request()->menu_categoy_id == $menuCategory->id? 'selected': '' }}>{{ $menuCategory->name }}</option>
+                      <option value="{{ $menuCategory->id }}" {{ request()->menu_category_id && request()->menu_category_id == $menuCategory->id? 'selected': '' }}>{{ $menuCategory->name }}</option>
                     @endforeach
                   </select>
                 </div>
@@ -102,7 +102,7 @@
                 <select class="form-control categories" name="menu_category_id">
                   <option value="">Select Category</option>
                   @foreach ($menuCategories as $menuCategory)
-                    <option value="{{ $menuCategory->id }}" {{ request()->menu_categoy_id && request()->menu_categoy_id == $menuCategory->id? 'selected': '' }}>{{ $menuCategory->name }}</option>
+                    <option value="{{ $menuCategory->id }}" {{ request()->menu_category_id && request()->menu_category_id == $menuCategory->id? 'selected': '' }}>{{ $menuCategory->name }}</option>
                   @endforeach
                 </select>
               </div>
@@ -146,11 +146,14 @@
         let id = $(this).val();
         let subcategories = @json($menuSubcategories);
 
+        let subcategoryId = @json(request()->menu_subcategory_id);
+        
+        
         let options = '<option value="">Select Category</option>';
         
         subcategories.forEach((value, index) => {
           if(value.menu_category_id == id) {
-            options += `<option value=${value.id}>${value.name}</option>`;
+            options += `<option value=${value.id} ${subcategoryId == value.id? 'selected': ''}>${value.name}</option>`;
           }
         })
 
