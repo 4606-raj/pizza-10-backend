@@ -88,6 +88,8 @@ class HomeController extends Controller
             $groupedData = MenuCategory::with(['menuItems' => function ($query) use ($menuItems) {
                 $query->whereIn('menu_items.id', $menuItems->pluck('id'));
             }])->get();
+
+            // $groupedData = $groupedData->filter(function($value));
         }
         
         

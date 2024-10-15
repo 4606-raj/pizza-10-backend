@@ -62,7 +62,7 @@ class MenuItemController extends Controller
             'image' => 'required|image',
             'description' => 'required',
             'menu_category_id' => 'required|integer',
-            'menu_subcategory_id' => 'required|integer',
+            'menu_subcategory_id' => 'nullable|integer',
             'is_veg' => 'required|boolean',
             'prices.*' => 
                             function ($attribute, $value, $fail) {
@@ -139,7 +139,7 @@ class MenuItemController extends Controller
             'name' => 'required',
             'description' => 'required',
             'menu_category_id' => 'required|integer',
-            'menu_subcategory_id' => 'required|integer',
+            'menu_subcategory_id' => 'nullable|integer',
             'is_veg' => 'required|boolean',
         ]);
 
@@ -183,7 +183,7 @@ class MenuItemController extends Controller
     public function menuItemsCategoryAttach(Request $request) {
         $request->validate([
             'menu_category_id' => 'required',
-            'menu_subcategory_id' => 'required',
+            'menu_subcategory_id' => 'nullable',
             'menu_item_ids.*' => 'required',
         ]);
 
