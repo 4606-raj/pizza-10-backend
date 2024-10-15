@@ -68,17 +68,22 @@ class HomeController extends Controller
         
         $data = $data->get();
 
-        $groupedData = MenuSubcategory::query();
         
         if(request()->has('menu_category_id') && !empty(request()->menu_category_id)) {
+            $groupedData = MenuSubcategory::query();
+
             $groupedData = $groupedData->whereMenuCategoryId(request()->menu_category_id);
+
+            $groupedData = $groupedData->withCount('menuItems')->with(['menuItems'])->get();
+            
+            if(!count(array_filter($groupedData->pluck('menu_items_count')->toArray()))) {
+                $groupedData = MenuCategory::whereId(request()->menu_category_id)->with(['menuItems'])->get();
+            }
+        }
+        else {
+            $groupedData = MenuCategory::with(['menuItems'])->get();
         }
         
-        $groupedData = $groupedData->withCount('menuItems')->with(['menuItems'])->get();
-        
-        if(!count(array_filter($groupedData->pluck('menu_items_count')->toArray()))) {
-            $groupedData = MenuCategory::whereId(request()->menu_category_id)->with(['menuItems'])->get();
-        }
         
         return $this->success($groupedData);
     }
