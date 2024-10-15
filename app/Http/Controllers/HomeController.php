@@ -66,7 +66,7 @@ class HomeController extends Controller
 
         // end of temporary code
         
-        $data = $data->get();
+        $menuItems = $data->get();
 
         
         if(request()->has('menu_category_id') && !empty(request()->menu_category_id)) {
@@ -74,14 +74,20 @@ class HomeController extends Controller
 
             $groupedData = $groupedData->whereMenuCategoryId(request()->menu_category_id);
 
-            $groupedData = $groupedData->withCount('menuItems')->with(['menuItems'])->get();
+            $groupedData = $groupedData->withCount('menuItems')->with(['menuItems' => function ($query) use ($menuItems) {
+                $query->whereIn('menu_items.id', $menuItems->pluck('id'));
+            }])->get();
             
             if(!count(array_filter($groupedData->pluck('menu_items_count')->toArray()))) {
-                $groupedData = MenuCategory::whereId(request()->menu_category_id)->with(['menuItems'])->get();
+                $groupedData = MenuCategory::whereId(request()->menu_category_id)->with(['menuItems' => function ($query) use ($menuItems) {
+                $query->whereIn('menu_items.id', $menuItems->pluck('id'));
+            }])->get();
             }
         }
         else {
-            $groupedData = MenuCategory::with(['menuItems'])->get();
+            $groupedData = MenuCategory::with(['menuItems' => function ($query) use ($menuItems) {
+                $query->whereIn('menu_items.id', $menuItems->pluck('id'));
+            }])->get();
         }
         
         
