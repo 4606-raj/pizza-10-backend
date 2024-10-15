@@ -63,7 +63,22 @@ class MenuItem extends Model
     }
 
     public function carts() {
-        return $this->belongsToMany(MenuItem::class);
+        return $this->belongsToMany(Cart::class);
     }
 
+    public static function booted() {
+    static::deleting(function ($menuItem) {
+        $menuItem->carts()->detach();
+        $menuItem->carts()->delete();
+        $menuItem->bases()->detach();
+        $menuItem->bases()->delete();
+        $menuItem->offers()->detach();
+        $menuItem->offers()->delete();
+        $menuItem->prices()->delete();
+        $menuItem->toppings()->detach();
+        $menuItem->toppings()->delete();
+    });
+}
+
+    
 }

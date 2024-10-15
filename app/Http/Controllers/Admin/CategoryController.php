@@ -93,7 +93,17 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        MenuCategory::find($id)->delete();
+        $category = MenuCategory::find($id);
+
+        foreach ($category->menuItems as $key => $value) {
+            $value->delete();
+        }
+        foreach ($category->subcategories as $key => $value) {
+            $value->delete();
+        }
+
+        $category->delete();
+        
         return redirect()->route('menu-categories.index')->with('success', 'Category deleted successfully!');
     }
 

@@ -53,9 +53,9 @@
                 <label class="col-sm-3 col-form-label">Menu Subcategory</label>
                 <div class="col-sm-9">
                   <select class="form-control subcategories" name="menu_subcategory_id">
-                    {{-- @foreach ($menuSubcategories as $menuSubcategory) --}}
+                    @if ($menuItem->subcategory)
                       <option value="{{ $menuItem->subcategory->id }}" selected>{{ $menuItem->subcategory->name }}</option>
-                    {{-- @endforeach --}}
+                    @endif
                   </select>
                 </div>
               </div>
@@ -103,7 +103,7 @@
       $('.categories').change(function() {
         let id = $(this).val();
         let subcategories = @json($menuSubcategories);
-        let subcategorId = @json($menuItem->subcategory->id);
+        let subcategorId = @json($menuItem->subcategory->id ?? 0);
 
         let options = '<option value="">Select Category</option>';
         
